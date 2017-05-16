@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:36:55 2017 romain pillot
-** Last update Tue May 16 09:48:26 2017 romain pillot
+** Last update Tue May 16 10:19:07 2017 romain pillot
 */
 
 #include "builtin.h"
@@ -14,15 +14,22 @@
 #include "util.h"
 #include <stdlib.h>
 
-static bool valid_key(char *key)
+static	bool valid_key(char *key)
 {
-  if (*key != '_' &&
-      !(*key >= 'a' && *key <= 'z') &&
-      !(*key >= 'A' && *key <= 'Z'))
-    {
-      display("setenv: Variable name must begin with a letter\n");
-      return (false);
-    }
+  int	i;
+
+  i = -1;
+  while (key[++i])
+    if (key[i] != '_' && !(key[i] >= 'a' && key[i] <= 'z') &&
+	!(key[i] >= 'A' && key[i] <= 'Z'))
+      {
+	if (!i || (i > 0 && !(key[i] > '0' && key[i] < '9')))
+	  {
+	    display(!i ? "setenv: Variable name must begin with a letter\n" :
+		    "setenv: Variable name must contain alphanumeric characters.\n");
+	    return (false);
+	  }
+      }
   return (true);
 }
 
