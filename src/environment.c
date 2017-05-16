@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 13:56:07 2017 romain pillot
+** Last update Tue May 16 14:19:22 2017 romain pillot
 */
 
 #include "environment.h"
@@ -61,12 +61,22 @@ char    **copy_env(char **env, char **overwrite)
   return (hold);
 }
 
-void	display_environment(char **env, char end_line)
+void	set_value(char **env, char *key, char *val)
 {
-  char	*str;
+  char	*value;
+  char	**tofree;
+  bool	found;
 
-  while (env && (str = *env++))
-    printf("%s%c", str, end_line);
+  while (env && !found && (value = *env++))
+    {
+      tofree = splitstr(value, '=');
+      if ((found = equalstr(tofree[0], key)))
+	{
+	  tofree[1] = val;
+	  env[-1] = joinstr(tofree, "=");
+	}
+      safe_freesub(tofree, true);
+    }
 }
 
 char	*get_value(char **env, char *key)

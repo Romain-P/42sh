@@ -5,11 +5,12 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Tue Feb  7 14:39:21 2017 romain pillot
-** Last update Thu Mar  9 16:16:07 2017 romain pillot
+** Last update Tue May 16 14:09:08 2017 romain pillot
 */
 
 #include "util.h"
 #include <unistd.h>
+#include <stdio.h>
 
 int	str_length(char *str)
 {
@@ -37,4 +38,12 @@ void	display_digit(int digit)
 void	display_char(char c)
 {
   write(1, &c, 1);
+}
+
+void    display_environment(char **env, char end_line)
+{
+  char  *str;
+
+  while (env && (str = *env++))
+    printf("%s%c", str, end_line);
 }

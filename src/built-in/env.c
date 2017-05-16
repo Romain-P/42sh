@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:35:17 2017 romain pillot
-** Last update Tue May 16 12:13:42 2017 romain pillot
+** Last update Tue May 16 14:12:30 2017 romain pillot
 */
 
 #include "environment.h"
@@ -88,7 +88,7 @@ void	env_alt(t_shell *shell, char **args)
   else if (!start_withstr(args[index], "-"))
     {
       shell->env = env;
-      tofree = joinstr(args + index);
+      tofree = joinstr(args + index, " ");
       if (tofree)
 	apply_command(shell, tofree);
       safe_free(tofree);

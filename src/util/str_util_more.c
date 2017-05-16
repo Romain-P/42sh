@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 10:25:12 2017 romain pillot
-** Last update Tue May 16 12:05:51 2017 romain pillot
+** Last update Tue May 16 14:11:38 2017 romain pillot
 */
 
 #include <stdbool.h>
@@ -55,7 +55,7 @@ char	*concatstr(char *a, char *b, bool free_a)
   return (hold);
 }
 
-char	*joinstr(char **tab)
+char	*joinstr(char **tab, char *joiner)
 {
   char	*str;
   char	*value;
@@ -63,7 +63,7 @@ char	*joinstr(char **tab)
   str = NULL;
   while (tab && (value = *tab++))
     if (str)
-      str = concatstr(concatstr(str, " ", true), value, true);
+      str = concatstr(concatstr(str, joiner, true), value, true);
     else
       str = concatstr(NULL, value, false);
   return (str);
