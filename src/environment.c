@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 14:26:37 2017 romain pillot
+** Last update Tue May 16 14:40:22 2017 romain pillot
 */
 
 #include "environment.h"
@@ -70,7 +70,7 @@ void	set_value(char **env, char *key, char *val)
   found = false;
   while (env && !found && (value = *env++))
     {
-      tofree = splitstr(value, '=');
+      tofree = splitstr(strdup(value), '=');
       if ((found = equalstr(tofree[0], key)))
 	{
 	  tofree[1] = val;
@@ -89,7 +89,7 @@ char	*get_value(char **env, char *key)
   found = NULL;
   while (!found && env && (value = *env++))
     {
-      tofree = splitstr(value, '=');
+      tofree = splitstr(strdup(value), '=');
       if (equalstr(tofree[0], key))
 	found = strdup(tofree[1]);
       safe_freesub(tofree, true);

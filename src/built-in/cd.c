@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:39:17 2017 romain pillot
-** Last update Tue May 16 16:22:09 2017 Christian Betta
+** Last update Tue May 16 14:41:24 2017 romain pillot
 */
 
 #include "util.h"
@@ -14,26 +14,18 @@
 
 void	cd_alt(t_shell *shell, char **args)
 {
-  int   a;
   char	*value;
   char	buffer[1024];
 
-  if (args[1] == NULL)
+  if (!args[1])
     {
       chdir((value = get_value(shell->env, "HOME")));
-      display(value);
-      display("pute");
       free(value);
     }
-  else
+  else if (chdir(args[1]) != 0)
     {
-      if (chdir(args[1]) == 0)
-	a++;
-      else
-	{
-	  display(args[1]);
-	  display(": No such file or directory.\n");
-	}
+      display(args[1]);
+      display(": No such file or directory.\n");
     }
   getcwd(buffer, 1024);
   set_value(shell->env, "PWD", buffer);
