@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 14:19:22 2017 romain pillot
+** Last update Tue May 16 14:26:37 2017 romain pillot
 */
 
 #include "environment.h"
@@ -67,6 +67,7 @@ void	set_value(char **env, char *key, char *val)
   char	**tofree;
   bool	found;
 
+  found = false;
   while (env && !found && (value = *env++))
     {
       tofree = splitstr(value, '=');
