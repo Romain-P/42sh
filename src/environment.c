@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 08:29:13 2017 romain pillot
+** Last update Tue May 16 09:47:06 2017 romain pillot
 */
 
 #include "environment.h"
@@ -55,7 +55,7 @@ char    **copy_env(char **env, char **overwrite)
       free(split);
     }
   while (overwrite && *overwrite)
-    *new++ = *overwrite++;
+    *new++ = strdupl(*overwrite++);
   *new = 0;
   return (hold);
 }

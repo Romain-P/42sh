@@ -5,13 +5,14 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:36:55 2017 romain pillot
-** Last update Tue May 16 09:20:13 2017 romain pillot
+** Last update Tue May 16 09:48:26 2017 romain pillot
 */
 
 #include "builtin.h"
 #include "environment.h"
 #include <stdio.h>
 #include "util.h"
+#include <stdlib.h>
 
 static bool valid_key(char *key)
 {
@@ -40,4 +41,6 @@ void	setenv_alt(t_shell *shell, char **args)
   overwrite[0] = concatstr(concatstr(args[1], "=", false), args[2], true);
   overwrite[1] = 0;
   shell->env = copy_env((hold = shell->env), overwrite);
+  free_tab(hold);
+  free(*overwrite);
 }
