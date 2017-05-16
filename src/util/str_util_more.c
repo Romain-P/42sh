@@ -5,12 +5,13 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 10:25:12 2017 romain pillot
-** Last update Tue May 16 14:11:38 2017 romain pillot
+** Last update Tue May 16 15:13:43 2017 romain pillot
 */
 
 #include <stdbool.h>
 #include "util.h"
 #include <stdlib.h>
+#include <string.h>
 
 bool	start_withstr(char *str, char *charset)
 {
@@ -65,6 +66,6 @@ char	*joinstr(char **tab, char *joiner)
     if (str)
       str = concatstr(concatstr(str, joiner, true), value, true);
     else
-      str = concatstr(NULL, value, false);
+      str = strdup(value);
   return (str);
 }

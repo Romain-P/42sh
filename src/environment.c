@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 14:40:22 2017 romain pillot
+** Last update Tue May 16 15:36:51 2017 romain pillot
 */
 
 #include "environment.h"
@@ -74,6 +74,7 @@ void	set_value(char **env, char *key, char *val)
       if ((found = equalstr(tofree[0], key)))
 	{
 	  tofree[1] = val;
+	  free(value);
 	  env[-1] = joinstr(tofree, "=");
 	}
       safe_freesub(tofree, true);

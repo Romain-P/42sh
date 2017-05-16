@@ -5,13 +5,14 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:35:17 2017 romain pillot
-** Last update Tue May 16 17:09:32 2017 Christian Betta
+** Last update Tue May 16 15:13:17 2017 romain pillot
 */
 
 #include "environment.h"
 #include "util.h"
 #include "builtin.h"
 #include <stdlib.h>
+#include <string.h>
 
 static  bool valid_key(char *key)
 {
