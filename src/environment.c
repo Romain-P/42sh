@@ -5,13 +5,14 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Thu Mar  9 12:09:34 2017 romain pillot
+** Last update Tue May 16 08:29:13 2017 romain pillot
 */
 
 #include "environment.h"
 #include "util.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 static int	count_similar_keys(char **a, char **b)
 {
@@ -57,6 +58,14 @@ char    **copy_env(char **env, char **overwrite)
     *new++ = *overwrite++;
   *new = 0;
   return (hold);
+}
+
+void	display_environment(char **env)
+{
+  char	*str;
+
+  while ((str = *env++))
+    printf("%s\n", str);
 }
 
 char    **get_paths(char **env)
