@@ -5,11 +5,13 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:39:17 2017 romain pillot
-** Last update Tue May 16 14:41:24 2017 romain pillot
+** Last update Tue May 16 16:45:23 2017 Christian Betta
 */
 
+#include "environment.h"
 #include "util.h"
 #include <stdlib.h>
+#include <unistd.h>
 #include "builtin.h"
 
 void	cd_alt(t_shell *shell, char **args)
