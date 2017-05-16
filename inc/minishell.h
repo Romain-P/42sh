@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Wed Mar 22 16:22:27 2017 romain pillot
+** Last update Tue May 16 12:04:17 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -41,6 +41,8 @@ typedef struct		s_shell
 void			launch(t_shell *shell, int file);
 
 int			get_cmd_index(char *cmd);
+
+void			apply_command(t_shell *shell, char *cmd_line);
 
 void			search_cmd(t_shell *shell, char **args);
 

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:36:55 2017 romain pillot
-** Last update Tue May 16 10:19:07 2017 romain pillot
+** Last update Tue May 16 10:54:57 2017 romain pillot
 */
 
 #include "builtin.h"
@@ -40,7 +40,7 @@ void	setenv_alt(t_shell *shell, char **args)
 
   if (!args[1])
     {
-      display_environment(shell->env);
+      display_environment(shell->env, '\n');
       return ;
     }
   else if (!valid_key(args[1]))

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 10:25:12 2017 romain pillot
-** Last update Wed Mar 22 14:26:05 2017 romain pillot
+** Last update Tue May 16 12:05:51 2017 romain pillot
 */
 
 #include <stdbool.h>
@@ -53,4 +53,18 @@ char	*concatstr(char *a, char *b, bool free_a)
   if (free_a && hold_a)
     free(hold_a);
   return (hold);
+}
+
+char	*joinstr(char **tab)
+{
+  char	*str;
+  char	*value;
+
+  str = NULL;
+  while (tab && (value = *tab++))
+    if (str)
+      str = concatstr(concatstr(str, " ", true), value, true);
+    else
+      str = concatstr(NULL, value, false);
+  return (str);
 }

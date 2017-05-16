@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 09:47:06 2017 romain pillot
+** Last update Tue May 16 11:56:05 2017 romain pillot
 */
 
 #include "environment.h"
@@ -60,19 +60,19 @@ char    **copy_env(char **env, char **overwrite)
   return (hold);
 }
 
-void	display_environment(char **env)
+void	display_environment(char **env, char end_line)
 {
   char	*str;
 
-  while ((str = *env++))
-    printf("%s\n", str);
+  while (env && (str = *env++))
+    printf("%s%c", str, end_line);
 }
 
 char    **get_paths(char **env)
 {
   char  *str;
 
-  while ((str = *env++))
+  while (env && (str = *env++))
     if (start_withstr(str, "PATH"))
       return (splitstr(strdupl(str + 5), ':'));
   return (NULL);

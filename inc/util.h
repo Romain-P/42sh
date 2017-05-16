@@ -5,13 +5,15 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  2 16:17:22 2017 romain pillot
-** Last update Thu Mar  9 16:19:21 2017 romain pillot
+** Last update Tue May 16 12:02:59 2017 romain pillot
 */
 
 #ifndef UTIL_H_
 # define UTIL_H_
 
 # include "minishell.h"
+
+char	*joinstr(char **tab);
 
 char	*scan_line(const int file);
 

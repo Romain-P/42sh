@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Tue May 16 08:59:34 2017 romain pillot
+** Last update Tue May 16 12:03:40 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -44,7 +44,7 @@ static void     exit_handle()
     display_prompt();
 }
 
-static void	apply_command(t_shell *shell, char *cmd_line)
+void	apply_command(t_shell *shell, char *cmd_line)
 {
   char		**args;
   char		*tofree;
