@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 11:56:05 2017 romain pillot
+** Last update Tue May 16 13:41:14 2017 romain pillot
 */
 
 #include "environment.h"
@@ -66,6 +66,23 @@ void	display_environment(char **env, char end_line)
 
   while (env && (str = *env++))
     printf("%s%c", str, end_line);
+}
+
+char	*get_value(char **env, char *key)
+{
+  char	*value;
+  char	**tofree;
+  char	*found;
+
+  found = NULL;
+  while (!found && env && (value = *env++))
+    {
+      tofree = splitstr(value, '=');
+      if (equalstr(tofree[0], key))
+	found = tofree[1];
+      free(tofree);
+    }
+  return (found);
 }
 
 char    **get_paths(char **env)
