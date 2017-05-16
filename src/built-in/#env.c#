@@ -1,11 +1,11 @@
 /*
 ** env.c for  in /home/romain.pillot/projects/PSU_2016_minishell1/src/built-in
-**
+** 
 ** Made by romain pillot
 ** Login   <romain.pillot@epitech.net>
-**
+** 
 ** Started on  Wed Mar  8 13:35:17 2017 romain pillot
-** Last update Tue May 16 17:09:32 2017 Christian Betta
+** Last update Tue May 16 14:12:30 2017 romain pillot
 */
 
 #include "environment.h"
@@ -62,9 +62,9 @@ static int	apply_options(char ***addr, char **args)
 	unbind(env, args[++i]);
       else if (start_withstr(args[i], "--unset"))
 	{
-	  tofree = splitstr((strdup(args[i])), '=');
+	  tofree = splitstr((strdup(args[i]), '=');
 	  unbind(env, tofree[1]);
-	  safe_freesub(tofree, true);
+	  safe_freesub(tofree);
 	}
       else if (!start_withstr(args[i], "-"))
 	break;
