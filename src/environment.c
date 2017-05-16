@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 13:41:14 2017 romain pillot
+** Last update Tue May 16 13:56:07 2017 romain pillot
 */
 
 #include "environment.h"
@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 static int	count_similar_keys(char **a, char **b)
 {
@@ -79,8 +80,8 @@ char	*get_value(char **env, char *key)
     {
       tofree = splitstr(value, '=');
       if (equalstr(tofree[0], key))
-	found = tofree[1];
-      free(tofree);
+	found = strdup(tofree[1]);
+      safe_freesub(tofree, true);
     }
   return (found);
 }
