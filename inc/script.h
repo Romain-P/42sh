@@ -5,13 +5,21 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:41:13 2017 romain pillot
-** Last update Tue May 16 16:02:35 2017 romain pillot
+** Last update Wed May 17 11:28:49 2017 romain pillot
 */
 
 #ifndef SCRIPT_H_
 # define SCRIPT_H_
 
 # include "minishell.h"
+
+typedef struct	s_alias
+{
+  char		*name;
+  char		*content;
+}		t_alias;
+
+void	load_exports(t_shell *shell);
 
 void	load_aliases(t_shell *shell);
 

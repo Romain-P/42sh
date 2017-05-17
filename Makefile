@@ -5,7 +5,7 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Wed May 17 11:18:06 2017 romain pillot
+## Last update Wed May 17 11:27:47 2017 romain pillot
 ##
 
 CC	=	gcc
@@ -20,6 +20,7 @@ SRCS	=	src/main.c			\
 		src/execute.c			\
 		src/script/bash_reader.c	\
 		src/script/alias.c		\
+		src/script/export.c		\
 		src/built-in/cd.c		\
 		src/built-in/env.c		\
 		src/built-in/setenv.c		\
