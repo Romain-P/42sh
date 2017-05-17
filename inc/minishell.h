@@ -5,13 +5,15 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Tue May 16 16:10:00 2017 romain pillot
+** Last update Wed May 17 12:41:03 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
 # define MINISHELL_H_
 
 # include "stdbool.h"
+# include "list.h"
+# include "script.h"
 
 # define CHILD_PROCESS	(0)
 
@@ -33,9 +35,9 @@
 typedef struct		s_shell
 {
   bool			isatty;
-  char			***aliases;
   char			**env;
   int			status;
+  t_scripts		*scripts;
   void			(*exit)(struct s_shell *shell, int status, char *message);
 }			t_shell;
 

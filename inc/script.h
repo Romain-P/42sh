@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:41:13 2017 romain pillot
-** Last update Wed May 17 11:28:49 2017 romain pillot
+** Last update Wed May 17 12:53:40 2017 romain pillot
 */
 
 #ifndef SCRIPT_H_
@@ -13,14 +13,28 @@
 
 # include "minishell.h"
 
+typedef struct s_shell	t_shell;
+
+typedef struct          s_scripts
+{
+  char                  *bashrc;
+  t_list                *aliases;
+}                       t_scripts;
+
 typedef struct	s_alias
 {
   char		*name;
   char		*content;
 }		t_alias;
 
-void	load_exports(t_shell *shell);
+void	init_scripts(t_shell *shell);
 
-void	load_aliases(t_shell *shell);
+int     open_filename(char *file_name);
+
+char    *file_content(int file_descriptor);
+
+void	load_exports(t_shell *shell, char **file_content);
+
+void	load_aliases(t_shell *shell, char **file_content);
 
 #endif /* !SCRIPT_H_ */

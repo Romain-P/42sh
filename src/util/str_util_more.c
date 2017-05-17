@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 10:25:12 2017 romain pillot
-** Last update Tue May 16 15:13:43 2017 romain pillot
+** Last update Wed May 17 11:44:47 2017 romain pillot
 */
 
 #include <stdbool.h>
@@ -68,4 +68,19 @@ char	*joinstr(char **tab, char *joiner)
     else
       str = strdup(value);
   return (str);
+}
+
+char    *copystr(unsigned char *from, int lenf,
+		 unsigned char *to, int index)
+{
+  int   len;
+  int   i;
+
+  i = 0;
+  if (!from || !to || index < 0)
+    return (NULL);
+  while (i < lenf)
+    to[index++] = from[i++];
+  to[index] = 0;
+  return (to);
 }

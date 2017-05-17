@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:14:29 2016 romain pillot
-** Last update Sat Mar 11 19:44:25 2017 romain pillot
+** Last update Wed May 17 12:56:56 2017 romain pillot
 */
 
 #include <stdlib.h>
@@ -34,6 +34,28 @@ static int	open_file(const char *file_name, t_shell *shell)
   return (file);
 }
 
+static void	free_all(t_shell *shell)
+{
+  t_elem	*elem;
+  t_elem	*hold;
+
+  free_tab(shell->env);
+  free(shell->scripts->bashrc);
+  elem = shell->scripts->aliases->first;
+  while (elem)
+    {
+      free(((t_alias *) elem->get)->name);
+      free(((t_alias *) elem->get)->content);
+      hold = elem->next;
+      free(elem->get);
+      free(elem);
+      elem = hold;
+    }
+  free(shell->scripts->aliases);
+  free(shell->scripts);
+  free(shell);
+}
+
 int		main(int ac, char **args, char **env)
 {
   t_shell	*shell;
@@ -42,6 +64,7 @@ int		main(int ac, char **args, char **env)
 
   if (!(shell = malloc(sizeof(t_shell))))
     return (EXIT_FAILURE);
+  init_scripts(shell);
   shell->status = -1;
   shell->env = copy_env(env, NULL);
   if ((file = ac > 1 ? open_file(args[1], shell) : 0) != -1)
@@ -53,7 +76,6 @@ int		main(int ac, char **args, char **env)
 	close(file);
     }
   status = shell->status;
-  free_tab(shell->env);
-  free(shell);
+  free_all(shell);
   return (status);
 }
