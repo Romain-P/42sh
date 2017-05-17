@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed May 17 11:40:02 2017 romain pillot
-** Last update Wed May 17 12:38:43 2017 romain pillot
+** Last update Wed May 17 16:16:40 2017 romain pillot
 */
 
 #include "util.h"
@@ -28,9 +28,8 @@ char                    *file_content(int file)
       buffer[bytes] = 0;
       len += bytes;
             content = !content ?
-	      copystr(buffer, bytes, malloc(sizeof(char) * (len + 1)), 0) :
-	      copystr(buffer, bytes, realloc(content,
-					     sizeof(char) * (len + 1)), len - bytes);
+	      copystr(buffer, bytes, balloc(len), 0) :
+	      copystr(buffer, bytes, reballoc(content, len), len - bytes);
     }
   if (bytes == -1)
     {

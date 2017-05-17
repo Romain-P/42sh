@@ -5,7 +5,7 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Wed May 17 11:47:02 2017 romain pillot
+## Last update Wed May 17 16:16:57 2017 romain pillot
 ##
 
 CC	=	gcc
@@ -33,7 +33,8 @@ SRCS	=	src/main.c			\
 		src/util/tab_util.c		\
 		src/util/str_util.c		\
 		src/util/str_util_more.c	\
-		src/util/util.c
+		src/util/util.c			\
+		src/util/bypass.c
 
 OBJS	=	$(SRCS:.c=.o)
 

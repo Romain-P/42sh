@@ -5,13 +5,17 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  2 16:17:22 2017 romain pillot
-** Last update Wed May 17 11:44:22 2017 romain pillot
+** Last update Wed May 17 16:16:20 2017 romain pillot
 */
 
 #ifndef UTIL_H_
 # define UTIL_H_
 
 # include "minishell.h"
+
+char	*balloc(int size);
+
+char	*reballoc(char *old, int size);
 
 char	*joinstr(char **tab, char *joiner);
 
