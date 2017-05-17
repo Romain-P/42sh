@@ -5,7 +5,7 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Tue May 16 07:59:53 2017 romain pillot
+## Last update Wed May 17 11:18:06 2017 romain pillot
 ##
 
 CC	=	gcc
@@ -18,11 +18,14 @@ SRCS	=	src/main.c			\
 		src/shell.c			\
 		src/environment.c		\
 		src/execute.c			\
+		src/script/bash_reader.c	\
+		src/script/alias.c		\
 		src/built-in/cd.c		\
 		src/built-in/env.c		\
 		src/built-in/setenv.c		\
 		src/built-in/unsetenv.c		\
 		src/built-in/exit.c		\
+		src/util/list.c			\
 		src/util/display.c		\
 		src/util/scanner.c		\
 		src/util/tab_util.c		\
