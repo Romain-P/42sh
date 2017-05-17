@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Wed May 17 12:41:03 2017 romain pillot
+** Last update Wed May 17 13:22:34 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -32,12 +32,18 @@
 # define NFOUND_STR	(": Command not found.\n")
 # define SEGFAULT_STR	("Segmentation fault (core dumped)\n")
 
+typedef struct		s_history
+{
+  char			*cd;
+}			t_history;
+
 typedef struct		s_shell
 {
   bool			isatty;
   char			**env;
   int			status;
   t_scripts		*scripts;
+  t_history		*history;
   void			(*exit)(struct s_shell *shell, int status, char *message);
 }			t_shell;
 
