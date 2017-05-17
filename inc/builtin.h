@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:41:13 2017 romain pillot
-** Last update Wed Mar  8 22:54:21 2017 romain pillot
+** Last update Wed May 17 17:34:49 2017 romain pillot
 */
 
 #ifndef BUILTIN_H_
@@ -14,6 +14,8 @@
 # include "minishell.h"
 
 void	cd_alt(t_shell *shell, char **args);
+
+void	echo_alt(t_shell *shell, char **args);
 
 void	env_alt(t_shell *shell, char **args);
 

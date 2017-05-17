@@ -5,7 +5,7 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Wed May 17 16:16:57 2017 romain pillot
+## Last update Wed May 17 17:34:29 2017 romain pillot
 ##
 
 CC	=	gcc
@@ -23,6 +23,7 @@ SRCS	=	src/main.c			\
 		src/script/export.c		\
 		src/script/file.c		\
 		src/built-in/cd.c		\
+		src/built-in/echo.c		\
 		src/built-in/env.c		\
 		src/built-in/setenv.c		\
 		src/built-in/unsetenv.c		\

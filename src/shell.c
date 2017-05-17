@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Wed May 17 16:03:06 2017 romain pillot
+** Last update Wed May 17 17:35:04 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -48,9 +48,10 @@ void	apply_command(t_shell *shell, char *cmd_line)
 {
   char		**args;
   char		*tofree;
-  static void   (* const cmds[6]) (struct s_shell *shell, char **args) =
+  static void   (* const cmds[]) (struct s_shell *shell, char **args) =
     {
-      &cd_alt, &setenv_alt, &unsetenv_alt, &env_alt, &exit_alt, &search_cmd
+      &cd_alt, &setenv_alt, &unsetenv_alt,
+      &env_alt, &exit_alt, &search_cmd, &echo_alt
     };
 
   cmd_line = format_alias(cmd_line, shell->scripts->aliases);
@@ -94,5 +95,6 @@ int     get_cmd_index(char *str)
 	  equalstr(str, "setenv") ? SETENV :
 	  equalstr(str, "unsetenv") ? UNSETENV :
 	  equalstr(str, "env") ? ENV :
+	  equalstr(str, "echo") ? ECHO : 
 	  equalstr(str, "exit") ? EXIT : SEARCH_CMD);
 }

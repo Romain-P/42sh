@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Wed May 17 13:22:34 2017 romain pillot
+** Last update Wed May 17 17:32:40 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -24,6 +24,7 @@
 # define ENV		(3)
 # define EXIT		(4)
 # define SEARCH_CMD	(5)
+# define ECHO		(6)
 
 # define NOT_FOUND	(0)
 # define DENIED		(-1)
