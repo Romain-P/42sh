@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:14:29 2016 romain pillot
-** Last update Wed May 17 12:56:56 2017 romain pillot
+** Last update Wed May 17 13:25:58 2017 romain pillot
 */
 
 #include <stdlib.h>
@@ -53,6 +53,8 @@ static void	free_all(t_shell *shell)
     }
   free(shell->scripts->aliases);
   free(shell->scripts);
+  free(shell->history->cd);
+  free(shell->history);
   free(shell);
 }
 
@@ -62,8 +64,10 @@ int		main(int ac, char **args, char **env)
   int		status;
   int		file;
 
-  if (!(shell = malloc(sizeof(t_shell))))
+  if (!(shell = malloc(sizeof(t_shell))) ||
+      !(shell->history = malloc(sizeof(t_history))))
     return (EXIT_FAILURE);
+  shell->history->cd = NULL;
   init_scripts(shell);
   shell->status = -1;
   shell->env = copy_env(env, NULL);
