@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Tue May 16 16:00:37 2017 romain pillot
-** Last update Wed May 17 12:55:38 2017 romain pillot
+** Last update Wed May 17 14:49:21 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -13,22 +13,27 @@
 #include "util.h"
 #include <string.h>
 #include <stdlib.h>
+#include "environment.h"
 
 static bool	initialize(t_shell *shell)
 {
-  if (!(shell->scripts = malloc(sizeof(t_scripts))))
+  if (!(shell->scripts = malloc(sizeof(t_scripts))) ||
+      !(shell->scripts->aliases = list_create()))
     return (false);
   shell->scripts->bashrc = NULL;
-  return (shell->scripts->aliases = list_create());
+  return (true);
 }
 
 void	init_scripts(t_shell *shell)
 {
   int	fd;
   char	**split;
+  char	*path;
 
-  if (!initialize(shell) || (fd = open_filename("~/.bashrc")) == -1)
-    return ;
+  path = concatstr(concatstr(get_value(shell->env, "HOME"), "/", true),
+		   ".bashrc", true);
+  if (!initialize(shell) || (fd = open_filename(path)) == -1)
+    return (free(path));
   if (shell->scripts->bashrc = file_content(fd))
     {
       split = splitstr(strdup(shell->scripts->bashrc), '\n');
@@ -37,4 +42,5 @@ void	init_scripts(t_shell *shell)
       safe_freesub(split, true);
     }
   close(fd);
+  free(path);
 }

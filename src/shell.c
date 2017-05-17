@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Tue May 16 12:03:40 2017 romain pillot
+** Last update Wed May 17 16:03:06 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -52,8 +52,9 @@ void	apply_command(t_shell *shell, char *cmd_line)
     {
       &cd_alt, &setenv_alt, &unsetenv_alt, &env_alt, &exit_alt, &search_cmd
     };
-  
-  args = splitstr(strdupl(cmd_line), ' ');
+
+  cmd_line = format_alias(cmd_line, shell->scripts->aliases);
+  args = splitstr(cmd_line, ' ');
   if (args && *args)
     cmds[get_cmd_index(*args)](shell, args);
   free(*args);

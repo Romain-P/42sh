@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:14:29 2016 romain pillot
-** Last update Wed May 17 13:25:58 2017 romain pillot
+** Last update Wed May 17 14:44:46 2017 romain pillot
 */
 
 #include <stdlib.h>
@@ -67,10 +67,10 @@ int		main(int ac, char **args, char **env)
   if (!(shell = malloc(sizeof(t_shell))) ||
       !(shell->history = malloc(sizeof(t_history))))
     return (EXIT_FAILURE);
-  shell->history->cd = NULL;
-  init_scripts(shell);
   shell->status = -1;
   shell->env = copy_env(env, NULL);
+  shell->history->cd = get_value(shell->env, "PWD");
+  init_scripts(shell);
   if ((file = ac > 1 ? open_file(args[1], shell) : 0) != -1)
     {
       shell->isatty = isatty(file);

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:41:13 2017 romain pillot
-** Last update Wed May 17 12:53:40 2017 romain pillot
+** Last update Wed May 17 15:22:00 2017 romain pillot
 */
 
 #ifndef SCRIPT_H_
@@ -36,5 +36,7 @@ char    *file_content(int file_descriptor);
 void	load_exports(t_shell *shell, char **file_content);
 
 void	load_aliases(t_shell *shell, char **file_content);
+
+char	*format_alias(char *cmd, t_list *aliases);
 
 #endif /* !SCRIPT_H_ */

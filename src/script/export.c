@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed May 17 11:27:29 2017 romain pillot
-** Last update Wed May 17 16:25:32 2017 Miolane
+** Last update Wed May 17 15:28:00 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -25,7 +25,7 @@ void	load_exports(t_shell *shell, char **file_content)
     {
       if (start_withstr("export", str))
 	{
-	  buffer[0] = str + 6;
+	  buffer[0] = str + 7;
 	  hold = shell->env;
 	  shell->env = copy_env(hold, buffer);
 	  free_tab(hold);

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Tue May 16 16:12:23 2017 romain pillot
-** Last update Wed May 17 15:58:01 2017 Clement Gomis
+** Last update Wed May 17 16:03:19 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -26,9 +26,9 @@ void		load_aliases(t_shell *shell, char **file_content)
     {
       if (start_withstr(str, "alias"))
 	{
-	  split = splitstr(str, '=');
+	  split = splitstr(strdup(str), '=');
 	  alias = malloc(sizeof(t_alias));
-	  alias->name = strdup(split[0] + 5);
+	  alias->name = strdup(split[0] + 6);
 	  length = str_length(split[1]);
 	  split[1][length - 1] = 0;
 	  alias->content = strdup(split[1] + 1);
@@ -37,4 +37,45 @@ void		load_aliases(t_shell *shell, char **file_content)
 	}
     }  
 		
+}
+
+static char	*replace(char **cmd, t_alias *alias, t_list *aliases)
+{
+  int		len;
+  char		*line;
+  char		*hold;
+  char		*recurse;
+
+  len = str_length(*cmd);
+  line = concatstr(concatstr(alias->content, " ", false),
+		   (hold = joinstr(cmd + 1, " ")), true);
+  if ((recurse = format_alias(line, aliases)) != line)
+    {
+      free(line);
+      line = recurse;
+    }
+  free(hold);
+  safe_freesub(cmd, true);
+  return (line);
+}
+
+char		*format_alias(char *cmd, t_list *aliases)
+{
+  t_elem	*elem;
+  t_alias	*found;
+  char		**split;
+
+  elem = aliases->first;
+  found = NULL;
+  split = splitstr(strdupl(cmd),  ' ');
+  while (!found && elem)
+    {
+      if (!start_withstr(cmd, ((t_alias *) elem->get)->content) &&
+	  equalstr(((t_alias *) elem->get)->name, split[0]))
+	found = (t_alias *) elem->get;
+      elem = elem->next;
+    }
+  if (!found)
+    safe_freesub(split, true);
+  return (found ? replace(split, found, aliases) : strdup(cmd));
 }
