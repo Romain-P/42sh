@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Tue May 16 16:12:23 2017 romain pillot
-** Last update Wed May 17 16:03:19 2017 romain pillot
+** Last update Thu May 18 08:25:35 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -35,8 +35,11 @@ void		load_aliases(t_shell *shell, char **file_content)
 	  list_add(shell->scripts->aliases, alias);
 	  safe_freesub(split, true);
 	}
-    }  
-		
+    }
+  alias = malloc(sizeof(t_alias));
+  alias->name  = strdup("..");
+  alias->content = strdup("cd ..");
+  list_add(shell->scripts->aliases, alias);
 }
 
 static char	*replace(char **cmd, t_alias *alias, t_list *aliases)
