@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:37:57 2017 romain pillot
-** Last update Tue May 16 10:30:33 2017 romain pillot
+** Last update Thu May 18 08:19:29 2017 romain pillot
 */
 
 #include <stdlib.h>
@@ -20,7 +20,7 @@ static  bool valid_key(char *key)
   while (key[++i])
     if (key[i] != '_' && !(key[i] >= 'a' && key[i] <= 'z') &&
 	!(key[i] >= 'A' && key[i] <= 'Z'))
-      if (!i || (i > 0 && !(key[i] > '0' && key[i] < '9')))
+      if (!i || (i > 0 && !(key[i] >= '0' && key[i] <= '9')))
 	return (false);
   return (true);
 }
