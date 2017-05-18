@@ -5,13 +5,14 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed May 17 11:27:29 2017 romain pillot
-** Last update Thu May 18 08:33:23 2017 romain pillot
+** Last update Thu May 18 08:37:13 2017 romain pillot
 */
 
 #include "minishell.h"
 #include "util.h"
 #include "environment.h"
 #include <string.h>
+#include <stdlib.h>
 
 void	load_exports(t_shell *shell, char **file_content)
 {
@@ -36,6 +37,7 @@ void	load_exports(t_shell *shell, char **file_content)
 	  hold = shell->env;
 	  shell->env = copy_env(hold, buffer);
 	  free_tab(hold);
+	  free(str);
 	  safe_freesub(split, true);
 	}
     }
