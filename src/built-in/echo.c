@@ -5,15 +5,42 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:38:50 2017 romain pillot
-** Last update Thu May 18 16:39:41 2017 Clement Gomis
+** Last update Thu May 18 15:52:34 2017 romain pillot
 */
 
 #include "builtin.h"
 #include <stdlib.h>
 #include "util.h"
 #include <unistd.h>
+#include <math.h>
 
-char	format_escaped(char c)
+static int	 convertOctalToDecimal(int octalNumber)
+{
+  int		decimalNumber;
+  int		i;
+
+  decimalNumber = (i = 0);
+  while (octalNumber)
+    {
+      decimalNumber += (octalNumber % 10) * pow(8, i++);
+      octalNumber /= 10;
+    }
+  return (decimalNumber);
+}
+
+static char	format_octal(char *str, int *i)
+{
+  int		j;
+  int		octal;
+  int		limit;
+
+  limit = (octal = (j = 0));
+  while (limit++ <= 3 && str[j] >= '0' && str[j] <= '9' && ++j && ++(*i))
+    octal = octal * 10 + str[j - 1] - '0';
+  return (octal ? convertOctalToDecimal(octal) : 0);
+}
+
+static char	format_escaped(char c)
 {
   return (c == 'n' ? '\n' :
 	  c == 't' ? '\t' :
@@ -39,10 +66,12 @@ void	echo_alt(t_shell *shell, char **args)
     {
       if (str[i] == '\\')
 	{
-	  if ((format = format_escaped(str[i + 1])) && ++i)
+	  if (str[i + 1] == '0')
+	    display_char(format_octal(str + i + 1, &i));
+	  else if ((format = format_escaped(str[i + 1])) && ++i)
 	    display_char(format);
 	  else
-	    write(STDOUT_FILENO, str + i, 2);
+	    write(STDOUT_FILENO, str + i++, 2);
 	}
       else
 	display_char(str[i]);
