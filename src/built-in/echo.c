@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:38:50 2017 romain pillot
-** Last update Thu May 18 15:52:34 2017 romain pillot
+** Last update Thu May 18 16:29:58 2017 romain pillot
 */
 
 #include "builtin.h"
@@ -63,19 +63,15 @@ void	echo_alt(t_shell *shell, char **args)
   str = joinstr(args + (display_return ? 1 : 2), " ");
   i = -1;
   while (str[++i])
-    {
-      if (str[i] == '\\')
-	{
-	  if (str[i + 1] == '0')
-	    display_char(format_octal(str + i + 1, &i));
-	  else if ((format = format_escaped(str[i + 1])) && ++i)
-	    display_char(format);
-	  else
-	    write(STDOUT_FILENO, str + i++, 2);
-	}
+    if (str[i] == '\\')
+      if (str[i + 1] == '0')
+	display_char(format_octal(str + i + 1, &i));
+      else if ((format = format_escaped(str[i + 1])) && ++i)
+	display_char(format);
       else
-	display_char(str[i]);
-    }
+	write(STDOUT_FILENO, str + i++, 2);
+    else
+      display_char(str[i]);
   if (display_return)
     display_char('\n');
   safe_free(str);
