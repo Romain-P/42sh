@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:38:50 2017 romain pillot
-** Last update Thu May 18 16:29:58 2017 romain pillot
+** Last update Thu May 18 21:19:06 2017 romain pillot
 */
 
 #include "builtin.h"
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <math.h>
 
-static int	 convertOctalToDecimal(int octalNumber)
+static int	convertOctalToDecimal(int octalNumber)
 {
   int		decimalNumber;
   int		i;
