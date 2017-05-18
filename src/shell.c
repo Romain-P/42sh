@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Wed May 17 17:35:04 2017 romain pillot
+** Last update Thu May 18 20:32:33 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -69,13 +69,15 @@ void		launch(t_shell *shell, int file)
   int		i;
 
   signal(SIGINT, &exit_handle);
-  while (shell->status == -1)
+  shell->running = true;
+  shell->status = EXIT_SUCCESS;
+  while (shell->running)
     {
       has_child = false;
       if (shell->isatty)
 	display_prompt();
       if (!(cmds_line = scan_line(file)))
-	shell->exit(shell, EXIT_SUCCESS, shell->isatty ? "exit\n" : NULL);
+	shell->exit(shell, shell->status, shell->isatty ? "exit\n" : NULL);
       else
 	{
 	  has_child = true;

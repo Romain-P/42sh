@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:14:29 2016 romain pillot
-** Last update Wed May 17 14:44:46 2017 romain pillot
+** Last update Thu May 18 20:34:23 2017 romain pillot
 */
 
 #include <stdlib.h>
@@ -20,6 +20,7 @@ static void	exit_shell(t_shell *shell, int status, char *msg)
   if (msg)
     display(msg);
   shell->status = status;
+  shell->running = false;
 }
 
 static int	open_file(const char *file_name, t_shell *shell)
@@ -53,8 +54,6 @@ static void	free_all(t_shell *shell)
     }
   free(shell->scripts->aliases);
   free(shell->scripts);
-  free(shell->history->cd);
-  free(shell->history);
   free(shell);
 }
 
@@ -64,12 +63,10 @@ int		main(int ac, char **args, char **env)
   int		status;
   int		file;
 
-  if (!(shell = malloc(sizeof(t_shell))) ||
-      !(shell->history = malloc(sizeof(t_history))))
+  if (!(shell = malloc(sizeof(t_shell))))
     return (EXIT_FAILURE);
   shell->status = -1;
   shell->env = copy_env(env, NULL);
-  shell->history->cd = get_value(shell->env, "PWD");
   init_scripts(shell);
   if ((file = ac > 1 ? open_file(args[1], shell) : 0) != -1)
     {

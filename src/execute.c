@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Wed Mar 22 16:22:38 2017 romain pillot
+** Last update Thu May 18 21:15:54 2017 romain pillot
 */
 
 #include "environment.h"
@@ -19,24 +19,48 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <stdio.h>
+#include <fcntl.h>
+
+static void	catch_child_exit(t_shell *shell, int pid)
+{
+  char		*error;
+  int		wstatus;
+  int		status;
+
+  while (waitpid(pid, &wstatus, 0) != pid);
+  if (WIFEXITED(wstatus))
+    shell->status = WEXITSTATUS(wstatus);
+  if (WIFSIGNALED(wstatus))
+    {
+      status = 1;
+      if ((error = wstatus == 8 && (status = 136) ? FLOATING_STR_X :
+	   wstatus == 11 && (status = 139) ? SEGFAULT_STR_X :
+	   wstatus == (status = 136) ? FLOATING_STR :
+	   wstatus == (status = 139) ? SEGFAULT_STR : NULL))
+	display(error);
+      shell->status = status;
+    }
+}
 
 static void	execute(t_shell *shell, char *path, char **args)
 {
   pid_t		pid;
-  int		wstatus;
+  char		*error;
 
   if ((pid = fork()) == -1)
     perror("fork");
-  else if (pid == CHILD_PROCESS && execve(path, args, shell->env) == -1)
+  else if (pid == CHILD_PROCESS)
     {
-      perror("execve");
-      shell->exit(shell, EXIT_FAILURE, NULL);
+      if (execve(path, args, shell->env) == -1)
+	{
+	  if (start_withstr(INVALID_STR, (error = strerror(errno))))
+	    error = INVALID_STR;
+	  printf("%s: %s", *args, INVALID_STR);
+	  shell->exit(shell, EXIT_FAILURE, NULL);
+	}
     }
   else
-    while (waitpid(pid, &wstatus, 0) != -1 &&
-	   !WIFEXITED(wstatus))
-      if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == SIGSEGV)
-	display(SEGFAULT_STR);
+    catch_child_exit(shell, pid);
 }
 
 static int	try_exec_access(char *path, char **denied, bool freepath)
