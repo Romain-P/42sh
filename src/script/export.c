@@ -5,12 +5,13 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed May 17 11:27:29 2017 romain pillot
-** Last update Wed May 17 17:47:18 2017 romain pillot
+** Last update Thu May 18 08:33:23 2017 romain pillot
 */
 
 #include "minishell.h"
 #include "util.h"
 #include "environment.h"
+#include <string.h>
 
 void	load_exports(t_shell *shell, char **file_content)
 {
@@ -18,6 +19,8 @@ void	load_exports(t_shell *shell, char **file_content)
   int		i;
   char		*buffer[2];
   char		**hold;
+  char		**split;
+  int		length;
 
   buffer[1] = 0;
   i = -1;
@@ -25,10 +28,15 @@ void	load_exports(t_shell *shell, char **file_content)
     {
       if (start_withstr(str, "export"))
 	{
+	  split = splitstr(strdup(str), '=');
+	  length = str_length(split[1]);
+	  split[1][length - 1] = 0;
+	  str = concatstr(concatstr(split[0], "=", false), split[1] + 1, true);
 	  buffer[0] = str + 7;
 	  hold = shell->env;
 	  shell->env = copy_env(hold, buffer);
 	  free_tab(hold);
+	  safe_freesub(split, true);
 	}
     }
 }
