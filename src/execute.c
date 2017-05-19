@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Fri May 19 08:41:04 2017 romain pillot
+** Last update Fri May 19 08:57:28 2017 romain pillot
 */
 
 #include "environment.h"
@@ -55,7 +55,7 @@ static void	execute(t_shell *shell, char *path, char **args)
 	{
 	  if (start_withstr(INVALID_STR, (error = strerror(errno))))
 	    error = INVALID_STR;
-	  printf("%s: %s\n", *args, error);
+	  printf("%s: %s.\n", *args, error);
 	  shell->exit(shell, EXIT_FAILURE, NULL);
 	}
     }

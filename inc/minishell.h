@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Fri May 19 08:40:46 2017 romain pillot
+** Last update Fri May 19 08:57:14 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -31,7 +31,7 @@
 # define ACCESS		(1)
 # define DENIED_STR	(": Permission denied.\n")
 # define NFOUND_STR	(": Command not found.\n")
-# define INVALID_STR	("Exec format error. Binary file not executable.")
+# define INVALID_STR	("Exec format error. Binary file not executable")
 # define SEGFAULT_STR	("Segmentation fault (core dumped)\n")
 # define SEGFAULT_STR_X	("Segmentation fault\n")
 # define FLOATING_STR	("Floating exception (core dumped)\n")
