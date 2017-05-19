@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:39:17 2017 romain pillot
-** Last update Fri May 19 12:07:20 2017 Christian Betta
+** Last update Fri May 19 14:34:20 2017 romain pillot
 */
 
 #include "environment.h"
@@ -21,6 +21,7 @@ void	cd_alt(t_shell *shell, char **args)
   char	buffer[1024];
 
   tmp_pwd = shell->history->oldpwd;
+  shell->status = EXIT_SUCCESS;
   shell->history->oldpwd = get_value(shell->env, "PWD");
   if (!args[1])
     {
@@ -32,7 +33,8 @@ void	cd_alt(t_shell *shell, char **args)
   else if (chdir(args[1]))
     {
       display(args[1]);
-      display(": No such file or directory.\n");
+      display(": Not a directory.\n");
+      shell->status = EXIT_FAILURE;
     }
   getcwd(buffer, 1024);
   set_value(shell->env, "PWD", buffer);

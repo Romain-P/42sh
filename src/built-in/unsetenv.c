@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:37:57 2017 romain pillot
-** Last update Thu May 18 08:19:29 2017 romain pillot
+** Last update Fri May 19 14:37:40 2017 romain pillot
 */
 
 #include <stdlib.h>
@@ -35,6 +35,7 @@ void	unsetenv_alt(t_shell *shell, char **args)
   if (!args[1])
     {
       display("unsetenv: Too few arguments.\n");
+      shell->status = EXIT_FAILURE;
       return ;
     }
   env = shell->env;
@@ -48,4 +49,5 @@ void	unsetenv_alt(t_shell *shell, char **args)
       if (refactoring)
 	env[-1] = *env;
     }
+  shell->status = EXIT_SUCCESS;
 }

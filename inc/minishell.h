@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Fri May 19 10:02:34 2017 romain pillot
+** Last update Fri May 19 14:40:10 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -37,12 +37,24 @@
 # define FLOATING_STR	("Floating exception (core dumped)\n")
 # define FLOATING_STR_X	("Floating exception\n")
 
+# define CHANNEL_NONE	(-1)
+# define CHANNEL_READ	(0)
+# define CHANNEL_WRITE	(1)
+
+# define CALLBACK_NONE		(0)
+# define CALLBACK_ONSUCCESS	(1)
+# define CALLBACK_ONFAILURE	(2)
+# define CALLBACK_ALLCASES	(3)
+
 typedef struct		s_cmd
 {
   char			*args;
-  int			pipe[2];
-  int			fd_in;
-  int			fd_out;
+  int			channels[2];
+  int			channel;
+  char			*redirection_out;
+  char			*redirection_in;
+  struct s_cmd		*callback;
+  int			callback_type;
 }			t_cmd;
 
 typedef struct		s_history
@@ -60,6 +72,8 @@ typedef struct		s_shell
   t_scripts		*scripts;
   void			(*exit)(struct s_shell *shell, int status, char *message);
 }			t_shell;
+
+t_cmd			**parse_commands(char *cmds_line);
 
 void			launch(t_shell *shell, int file);
 

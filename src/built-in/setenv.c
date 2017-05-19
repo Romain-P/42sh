@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:36:55 2017 romain pillot
-** Last update Thu May 18 08:19:14 2017 romain pillot
+** Last update Fri May 19 14:37:12 2017 romain pillot
 */
 
 #include "builtin.h"
@@ -41,13 +41,18 @@ void	setenv_alt(t_shell *shell, char **args)
   if (!args[1])
     {
       display_environment(shell->env, '\n');
+      shell->status = EXIT_SUCCESS;
       return ;
     }
   else if (!valid_key(args[1]))
-    return ;
+    {
+      shell->status = EXIT_FAILURE;
+      return ;
+    }
   overwrite[0] = concatstr(concatstr(args[1], "=", false), args[2], true);
   overwrite[1] = 0;
   shell->env = copy_env((hold = shell->env), overwrite);
   free_tab(hold);
   free(*overwrite);
+  shell->status = EXIT_SUCCESS;
 }

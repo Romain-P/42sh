@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:38:50 2017 romain pillot
-** Last update Thu May 18 21:19:06 2017 romain pillot
+** Last update Fri May 19 14:35:37 2017 romain pillot
 */
 
 #include "builtin.h"
@@ -74,5 +74,6 @@ void	echo_alt(t_shell *shell, char **args)
       display_char(str[i]);
   if (display_return)
     display_char('\n');
+  shell->status = EXIT_SUCCESS;
   safe_free(str);
 }
