@@ -5,12 +5,12 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Thu May 18 15:26:22 2017 romain pillot
+## Last update Fri May 19 08:50:52 2017 romain pillot
 ##
 
 CC	=	gcc
 
-NAME	=	mysh
+NAME	=	42sh
 
 RM	=	rm -f
 

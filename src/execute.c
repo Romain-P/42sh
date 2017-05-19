@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Thu May 18 21:15:54 2017 romain pillot
+** Last update Fri May 19 08:41:04 2017 romain pillot
 */
 
 #include "environment.h"
@@ -55,7 +55,7 @@ static void	execute(t_shell *shell, char *path, char **args)
 	{
 	  if (start_withstr(INVALID_STR, (error = strerror(errno))))
 	    error = INVALID_STR;
-	  printf("%s: %s", *args, INVALID_STR);
+	  printf("%s: %s\n", *args, error);
 	  shell->exit(shell, EXIT_FAILURE, NULL);
 	}
     }
@@ -69,7 +69,7 @@ static int	try_exec_access(char *path, char **denied, bool freepath)
   int		right;
 
   if (access(path, F_OK) != -1 && access(path, X_OK) != -1)
-    if (!stat(path, &rights) && rights.st_mode & S_IXUSR)
+    if (!stat(path, &rights) && rights.st_mode && (rights.st_mode & S_IEXEC))
       right = ACCESS;
     else
       {
