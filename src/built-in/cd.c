@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:39:17 2017 romain pillot
-** Last update Wed May 17 14:48:48 2017 Christian Betta
+** Last update Fri May 19 12:07:20 2017 Christian Betta
 */
 
 #include "environment.h"
@@ -14,45 +14,24 @@
 #include <unistd.h>
 #include "builtin.h"
 
-int	flag_cd(t_shell *shell, char **args)
-{
-  if (equalstr(args[1], "-L") == true && args[2] == NULL)
-    return (1);
-  else if (equalstr(args[1], "-P") == true && args[2] == NULL)
-    return (1);
-  else if (equalstr(args[1], "-e") == true && args[2] == NULL)
-    return (1);
-  else if (args[1] == NULL)
-    return (1);
-  else
-    return (0);
-}
-
-int	chg_rep(char **args)
-{
-  if (equalstr(args[1], "-L") == true ||
-      equalstr(args[1], "-P") == true ||
-      equalstr(args[1], "-e") == true)
-    return (2);
-  else
-    return (1);
-}
-
 void	cd_alt(t_shell *shell, char **args)
 {
   char	*value;
+  char	*tmp_pwd;
   char	buffer[1024];
-  int	i;
 
-  i = chg_rep(args);
-  if (args[1] == NULL || (flag_cd(shell, args) == 1))
+  tmp_pwd = shell->history->oldpwd;
+  shell->history->oldpwd = get_value(shell->env, "PWD");
+  if (!args[1])
     {
       chdir((value = get_value(shell->env, "HOME")));
       free(value);
     }
-  else if (chdir(args[i]) != 0)
+  else if (equalstr(args[1], "-"))
+    chdir(tmp_pwd);
+  else if (chdir(args[1]))
     {
-      display(args[i]);
+      display(args[1]);
       display(": No such file or directory.\n");
     }
   getcwd(buffer, 1024);
