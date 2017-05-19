@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Fri May 19 09:47:10 2017 romain pillot
+** Last update Fri May 19 10:02:34 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -41,6 +41,8 @@ typedef struct		s_cmd
 {
   char			*args;
   int			pipe[2];
+  int			fd_in;
+  int			fd_out;
 }			t_cmd;
 
 typedef struct		s_history
