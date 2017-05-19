@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:14:29 2016 romain pillot
-** Last update Thu May 18 20:34:23 2017 romain pillot
+** Last update Fri May 19 09:55:02 2017 romain pillot
 */
 
 #include <stdlib.h>
@@ -54,7 +54,24 @@ static void	free_all(t_shell *shell)
     }
   free(shell->scripts->aliases);
   free(shell->scripts);
+  free(shell->history->oldpwd);
+  free(shell->history);
   free(shell);
+}
+
+static t_shell		*initialize(char **env)
+{
+  t_shell		*shell;
+
+  if (!(shell = malloc(sizeof(t_shell))) ||
+      !(shell->history = malloc(sizeof(t_history))))
+    return (NULL);
+  shell->status = 1;
+  shell->env = copy_env(env, NULL);
+  shell->exit = &exit_shell;
+  shell->history->oldpwd = get_value(shell->env, "PWD");
+  init_scripts(shell);
+  return (shell);
 }
 
 int		main(int ac, char **args, char **env)
@@ -63,15 +80,11 @@ int		main(int ac, char **args, char **env)
   int		status;
   int		file;
 
-  if (!(shell = malloc(sizeof(t_shell))))
+  if (!(shell = initialize(env)))
     return (EXIT_FAILURE);
-  shell->status = -1;
-  shell->env = copy_env(env, NULL);
-  init_scripts(shell);
   if ((file = ac > 1 ? open_file(args[1], shell) : 0) != -1)
     {
       shell->isatty = isatty(file);
-      shell->exit = &exit_shell;
       launch(shell, file);
       if (ac > 1 && shell->status != EXIT_FAILURE)
 	close(file);

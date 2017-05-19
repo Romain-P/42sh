@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Fri May 19 08:57:14 2017 romain pillot
+** Last update Fri May 19 09:47:10 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -37,12 +37,24 @@
 # define FLOATING_STR	("Floating exception (core dumped)\n")
 # define FLOATING_STR_X	("Floating exception\n")
 
+typedef struct		s_cmd
+{
+  char			*args;
+  int			pipe[2];
+}			t_cmd;
+
+typedef struct		s_history
+{
+  char			*oldpwd;
+}			t_history;
+
 typedef struct		s_shell
 {
   bool			running;
   bool			isatty;
   char			**env;
   int			status;
+  t_history		*history;
   t_scripts		*scripts;
   void			(*exit)(struct s_shell *shell, int status, char *message);
 }			t_shell;
