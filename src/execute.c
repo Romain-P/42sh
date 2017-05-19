@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Fri May 19 08:57:28 2017 romain pillot
+** Last update Fri May 19 12:56:20 2017 romain pillot
 */
 
 #include "environment.h"
@@ -123,5 +123,7 @@ void            search_cmd(t_shell *shell, char **args)
     right = check_paths(shell, args, &denied);
   display(right == ACCESS ? NULL : denied ? denied : args[0]);
   display(right == ACCESS ? NULL : denied ? DENIED_STR : NFOUND_STR);
+  if (right == NOT_FOUND)
+    shell->status = EXIT_FAILURE;
   safe_free(denied);
 }
