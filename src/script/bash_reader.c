@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Tue May 16 16:00:37 2017 romain pillot
-** Last update Thu May 18 08:45:28 2017 romain pillot
+** Last update Fri May 19 13:42:36 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -37,8 +37,6 @@ void	init_scripts(t_shell *shell)
     if (shell->scripts->bashrc = file_content(fd))
       {
 	split = splitstr(strdup(shell->scripts->bashrc), '\n');
-	load_aliases(shell, split);
-	load_exports(shell, split);
 	safe_freesub(split, true);
       }
     close(fd);
