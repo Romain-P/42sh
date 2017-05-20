@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Fri May 19 14:40:10 2017 romain pillot
+** Last update Sat May 20 16:20:01 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -36,23 +36,43 @@
 # define SEGFAULT_STR_X	("Segmentation fault\n")
 # define FLOATING_STR	("Floating exception (core dumped)\n")
 # define FLOATING_STR_X	("Floating exception\n")
+# define NULL_CMD_STR	("Invalid null command.\n")
 
 # define CHANNEL_NONE	(-1)
 # define CHANNEL_READ	(0)
 # define CHANNEL_WRITE	(1)
 
+# define SEPARATOR_ONSUCCESS			("&&")
+# define SEPARATOR_ONFAILURE			("||")
+# define SEPARATOR_ALLCASES			(";")
+# define SEPARATOR_PIPE				("|")
+# define SEPARATOR_CHEVRON_INPUT		("<")
+# define SEPARATOR_CHEVRON_INPUT_DOUBLE		("<<")
+# define SEPARATOR_CHEVRON_OUTPUT		(">")
+# define SEPARATOR_CHEVRON_OUTPUT_DOUBLE	(">>")
+
+# define CHEVRON_NONE			(-1)
+# define CHEVRON_INPUT			(0)
+# define CHEVRON_OUTPUT			(1)
+# define CHEVRON_SIMPLE			(0)
+# define CHEVRON_DOUBLE			(1)
+
 # define CALLBACK_NONE		(0)
 # define CALLBACK_ONSUCCESS	(1)
 # define CALLBACK_ONFAILURE	(2)
 # define CALLBACK_ALLCASES	(3)
+# define CALLBACK_PIPE		(4)
 
 typedef struct		s_cmd
 {
-  char			*args;
+  char			*cmd_line;
+  char			**args;
   int			channels[2];
   int			channel;
   char			*redirection_out;
+  int			type_out;
   char			*redirection_in;
+  int			type_in;
   struct s_cmd		*callback;
   int			callback_type;
 }			t_cmd;
@@ -73,7 +93,13 @@ typedef struct		s_shell
   void			(*exit)(struct s_shell *shell, int status, char *message);
 }			t_shell;
 
-t_cmd			**parse_commands(char *cmds_line);
+t_cmd			*create_command(char *args);
+
+t_cmd			*build_commands(char *cmds_line);
+
+bool			parse_redirections(t_cmd *cmd);
+
+bool			parse_separators(char *cmds_line, t_cmd *cmd);
 
 void			launch(t_shell *shell, int file);
 

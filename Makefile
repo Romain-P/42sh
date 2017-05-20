@@ -5,7 +5,7 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Fri May 19 08:50:52 2017 romain pillot
+## Last update Sat May 20 13:23:42 2017 romain pillot
 ##
 
 CC	=	gcc
@@ -15,9 +15,12 @@ NAME	=	42sh
 RM	=	rm -f
 
 SRCS	=	src/main.c			\
+		src/command.c			\
 		src/shell.c			\
 		src/environment.c		\
 		src/execute.c			\
+		src/parser/separator_parser.c	\
+		src/parser/redirector_parser.c	\
 		src/script/bash_reader.c	\
 		src/script/alias.c		\
 		src/script/export.c		\

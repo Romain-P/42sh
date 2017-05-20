@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 10:25:12 2017 romain pillot
-** Last update Wed May 17 11:44:47 2017 romain pillot
+** Last update Fri May 19 20:57:48 2017 romain pillot
 */
 
 #include <stdbool.h>
@@ -77,7 +77,9 @@ char    *copystr(unsigned char *from, int lenf,
   int   i;
 
   i = 0;
-  if (!from || !to || index < 0)
+  if (!to && !(to = malloc(sizeof(char) * (lenf + 1))))
+    return (NULL);
+  if (!from || index < 0)
     return (NULL);
   while (i < lenf)
     to[index++] = from[i++];

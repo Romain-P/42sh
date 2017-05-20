@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Thu May 18 20:32:33 2017 romain pillot
+** Last update Sat May 20 13:24:17 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -81,6 +81,7 @@ void		launch(t_shell *shell, int file)
       else
 	{
 	  has_child = true;
+	  build_commands(cmds_line);
 	  cmds = splitstr(cmds_line, ';');
 	  i = -1;
 	  while (cmds[++i])
