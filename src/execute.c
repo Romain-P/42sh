@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sat May 20 19:57:03 2017 romain pillot
+** Last update Sat May 20 21:23:12 2017 romain pillot
 */
 
 #include "environment.h"
@@ -30,7 +30,7 @@ static void	catch_child_exit(t_shell *shell, int pid)
 
   while (waitpid(pid, &wstatus, 0) != pid);
   if (WIFEXITED(wstatus))
-    shell->status = WEXITSTATUS(wstatus) ? 1 : 0;
+    shell->status = WEXITSTATUS(wstatus) ? EXIT_FAILURE : EXIT_SUCCESS;
   if (WIFSIGNALED(wstatus))
     {
       status = 1;

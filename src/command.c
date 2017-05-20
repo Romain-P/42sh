@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri May 19 10:17:27 2017 romain pillot
-** Last update Sat May 20 20:14:47 2017 romain pillot
+** Last update Sat May 20 21:21:42 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -35,19 +35,17 @@ t_cmd		*create_command(char *cmd_line)
   return (cmd);
 }
 
-t_cmd		*build_commands(char *cmds_line)
+t_cmd		*build_commands(t_shell *shell, char *cmds_line)
 {
   t_cmd		*cmd;
 
   if (!parse_separators(trimstr(cmds_line, ' '), (cmd = create_command(NULL))))
-    {
-      display(NULL_CMD_STR);
-      return (NULL);
-    }
-  if (!parse_redirections(cmd))
-    {
-      display(MISSING_STR);
-      return (NULL);
-    }
-  return (cmd);
+    display(NULL_CMD_STR);
+  else if (!parse_redirections(cmd))
+    display(MISSING_STR);
+  else
+    return (cmd);
+  shell->status = EXIT_FAILURE;
+  return (NULL);
 }
+

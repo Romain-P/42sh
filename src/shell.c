@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Sat May 20 19:47:13 2017 romain pillot
+** Last update Sat May 20 21:22:17 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -66,7 +66,7 @@ void	build_and_exec(t_shell *shell, char *cmds_line)
     };
 
   has_child = true;
-  cmd = build_commands(cmds_line);
+  cmd = build_commands(shell, cmds_line);
   while (cmd)
     {
       hold = cmd->cmd_line;
@@ -98,7 +98,7 @@ void		launch(t_shell *shell, int file)
       if (!(cmds_line = scan_line(file)))
 	shell->exit(shell, shell->status, shell->isatty ? "exit\n" : NULL);
       else
-        build_and_exec(shell, cmds_line);
+	build_and_exec(shell, cmds_line);
     }
 }
 

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Sat May 20 19:24:47 2017 romain pillot
+** Last update Sat May 20 21:21:54 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -96,7 +96,7 @@ typedef struct		s_shell
 
 t_cmd			*create_command(char *args);
 
-t_cmd			*build_commands(char *cmds_line);
+t_cmd			*build_commands(t_shell *shell, char *cmds_line);
 
 bool			parse_redirections(t_cmd *cmd);
 
