@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Fri May 19 12:56:20 2017 romain pillot
+** Last update Sat May 20 19:35:20 2017 romain pillot
 */
 
 #include "environment.h"
@@ -42,7 +42,7 @@ static void	catch_child_exit(t_shell *shell, int pid)
     }
 }
 
-static void	execute(t_shell *shell, char *path, char **args)
+static void	execute(t_shell *shell, char *path, t_cmd *cmd)
 {
   pid_t		pid;
   char		*error;
@@ -51,11 +51,11 @@ static void	execute(t_shell *shell, char *path, char **args)
     perror("fork");
   else if (pid == CHILD_PROCESS)
     {
-      if (execve(path, args, shell->env) == -1)
+      if (execve(path, cmd->args, shell->env) == -1)
 	{
 	  if (start_withstr(INVALID_STR, (error = strerror(errno))))
 	    error = INVALID_STR;
-	  printf("%s: %s.\n", *args, error);
+	  printf("%s: %s.\n", cmd->args[0], error);
 	  shell->exit(shell, EXIT_FAILURE, NULL);
 	}
     }
@@ -84,7 +84,7 @@ static int	try_exec_access(char *path, char **denied, bool freepath)
   return (right);
 }
 
-static int	check_paths(t_shell *shell, char **args, char **denied)
+static int	check_paths(t_shell *shell, t_cmd *cmd, char **denied)
 {
   char		*str;
   char		**hold;
@@ -96,10 +96,10 @@ static int	check_paths(t_shell *shell, char **args, char **denied)
   while (paths && (str = *paths++))
     {
       str = concatstr(str, "/", false);
-      str = concatstr(str, *args, true);
+      str = concatstr(str, cmd->args[0], true);
       if ((right = try_exec_access(str, denied, true)) == ACCESS)
 	{
-	  execute(shell, str, args);
+	  execute(shell, str, cmd);
 	  free(str);
 	  break;
 	}
@@ -108,7 +108,7 @@ static int	check_paths(t_shell *shell, char **args, char **denied)
   return (right);
 }
 
-void            search_cmd(t_shell *shell, char **args)
+void            search_cmd(t_shell *shell, t_cmd *cmd)
 {
   char          *str;
   char		*denied;
@@ -116,12 +116,12 @@ void            search_cmd(t_shell *shell, char **args)
   bool		has_slash;
 
   denied = NULL;
-  if ((has_slash = count_char(*args, '/') > 0) &&
-      (right = try_exec_access(*args, &denied, false)) == ACCESS)
-    execute(shell, *args, args);
+  if ((has_slash = count_char(cmd->args[0], '/') > 0) &&
+      (right = try_exec_access(cmd->args[0], &denied, false)) == ACCESS)
+    execute(shell, cmd->args[0], cmd);
   else if (!has_slash)
-    right = check_paths(shell, args, &denied);
-  display(right == ACCESS ? NULL : denied ? denied : args[0]);
+    right = check_paths(shell, cmd, &denied);
+  display(right == ACCESS ? NULL : denied ? denied : cmd->args[0]);
   display(right == ACCESS ? NULL : denied ? DENIED_STR : NFOUND_STR);
   if (right == NOT_FOUND)
     shell->status = EXIT_FAILURE;

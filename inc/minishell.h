@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Sat May 20 16:20:01 2017 romain pillot
+** Last update Sat May 20 19:24:47 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -18,13 +18,13 @@
 # define CHILD_PROCESS	(0)
 
 # define CMDS		(6)
+# define SEARCH_CMD	(-1)
 # define CD		(0)
 # define SETENV		(1)
 # define UNSETENV	(2)
 # define ENV		(3)
 # define EXIT		(4)
-# define SEARCH_CMD	(5)
-# define ECHO		(6)
+# define ECHO		(5)
 
 # define NOT_FOUND	(0)
 # define DENIED		(-1)
@@ -37,6 +37,7 @@
 # define FLOATING_STR	("Floating exception (core dumped)\n")
 # define FLOATING_STR_X	("Floating exception\n")
 # define NULL_CMD_STR	("Invalid null command.\n")
+# define MISSING_STR	("Missing name for redirect\n")
 
 # define CHANNEL_NONE	(-1)
 # define CHANNEL_READ	(0)
@@ -105,8 +106,8 @@ void			launch(t_shell *shell, int file);
 
 int			get_cmd_index(char *cmd);
 
-void			apply_command(t_shell *shell, char *cmd_line);
+void			build_and_exec(t_shell *shell, char *cmds_line);
 
-void			search_cmd(t_shell *shell, char **args);
+void			search_cmd(t_shell *shell, t_cmd *cmd);
 
 #endif /** !MINISHELL_H_ **/

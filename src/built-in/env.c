@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:35:17 2017 romain pillot
-** Last update Fri May 19 14:36:23 2017 romain pillot
+** Last update Sat May 20 19:37:36 2017 romain pillot
 */
 
 #include "environment.h"
@@ -91,7 +91,7 @@ void	env_alt(t_shell *shell, char **args)
       shell->env = env;
       tofree = joinstr(args + index, " ");
       if (tofree)
-	apply_command(shell, tofree);
+	build_and_exec(shell, tofree);
       safe_free(tofree);
       shell->env = cpy;
     }

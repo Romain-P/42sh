@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Sat May 20 13:24:17 2017 romain pillot
+** Last update Sat May 20 19:47:13 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -44,29 +44,48 @@ static void     exit_handle()
     display_prompt();
 }
 
-void	apply_command(t_shell *shell, char *cmd_line)
+static t_cmd	*apply_callback(t_shell *shell, t_cmd *cmd)
 {
-  char		**args;
-  char		*tofree;
-  static void   (* const cmds[]) (struct s_shell *shell, char **args) =
+  bool		successed;
+
+  successed = !shell->status;
+  return (cmd->callback_type == CALLBACK_ONSUCCESS ? successed ? cmd->callback : NULL :
+	  cmd->callback_type == CALLBACK_ONFAILURE ? !successed ? cmd->callback : NULL :
+	  cmd->callback);
+}
+
+void	build_and_exec(t_shell *shell, char *cmds_line)
+{
+  char		*hold;
+  int		index;
+  t_cmd		*cmd;
+  static void   (* const builtins[]) (struct s_shell *shell, char **args) =
     {
       &cd_alt, &setenv_alt, &unsetenv_alt,
-      &env_alt, &exit_alt, &search_cmd, &echo_alt
+      &env_alt, &exit_alt, &echo_alt
     };
 
-  cmd_line = format_alias(cmd_line, shell->scripts->aliases);
-  args = splitstr(cmd_line, ' ');
-  if (args && *args)
-    cmds[get_cmd_index(*args)](shell, args);
-  free(*args);
-  free(args);
+  has_child = true;
+  cmd = build_commands(cmds_line);
+  while (cmd)
+    {
+      hold = cmd->cmd_line;
+      cmd->cmd_line = format_alias(hold, shell->scripts->aliases);
+      index = get_cmd_index(cmd->args[0]);
+      if (index == SEARCH_CMD)
+	search_cmd(shell, cmd);
+      else
+	builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
+      cmd = apply_callback(shell, cmd);
+      free(hold);
+    }
+  free(cmds_line);
 }
 
 void		launch(t_shell *shell, int file)
 {
   char		*cmds_line;
-  char		**cmds;
-  int		i;
+  t_cmd		*cmd;
 
   signal(SIGINT, &exit_handle);
   shell->running = true;
@@ -79,16 +98,7 @@ void		launch(t_shell *shell, int file)
       if (!(cmds_line = scan_line(file)))
 	shell->exit(shell, shell->status, shell->isatty ? "exit\n" : NULL);
       else
-	{
-	  has_child = true;
-	  build_commands(cmds_line);
-	  cmds = splitstr(cmds_line, ';');
-	  i = -1;
-	  while (cmds[++i])
-	    apply_command(shell, cmds[i]);
-	  free(cmds);
-	  free(cmds_line);
-	}
+        build_and_exec(shell, cmds_line);
     }
 }
 

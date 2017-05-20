@@ -5,11 +5,12 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:23:01 2017 romain pillot
-** Last update Sat May 20 16:59:55 2017 romain pillot
+** Last update Sat May 20 19:38:23 2017 romain pillot
 */
 
 #include "minishell.h"
 #include "util.h"
+#include <string.h>
 
 static t_triple_int	parse_chevron(char *str)
 {
@@ -45,7 +46,6 @@ int	parse_file(char *str, char **redirection, int op_size)
 bool		parse_redirections(t_cmd *cmd)
 {
   int		i;
-  int		idx;
   t_triple_int	values;
   char		**redirection;
   int		*type;
@@ -65,8 +65,9 @@ bool		parse_redirections(t_cmd *cmd)
 	      i += parse_file(cmd->cmd_line + i, redirection, values.third);
 	      i += values.third;
 	    }
-	}
-      trimstr(cmd->cmd_line, ' ');
+	}      
+      cmd->args = splitstr(strdup(trimstr(cmd->cmd_line, ' ')), ' ');
       cmd = cmd->callback;
     }
+  return (true);
 }
