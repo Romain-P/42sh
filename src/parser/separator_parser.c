@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:17:08 2017 romain pillot
-** Last update Sat May 20 13:26:35 2017 romain pillot
+** Last update Sat May 20 20:27:37 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -40,6 +40,18 @@ static void     apply_callback_properties(t_cmd **cmd, int callback_type)
   hold->callback->channel = CHANNEL_READ;
 }
 
+bool		beside_separators(t_double_int values, char *cmds_line)
+{
+  char		str[3];
+  char		next;
+
+  next = cmds_line[values.second];
+  str[0] = next;
+  str[1] = next;
+  str[2] = 0;
+  return (parse_callback(str).first != CALLBACK_NONE);
+}
+
 bool		parse_separators(char *cmds_line, t_cmd *cmd)
 {
   int           i;
@@ -54,7 +66,8 @@ bool		parse_separators(char *cmds_line, t_cmd *cmd)
       if ((values = parse_callback(cmds_line + i)).first != CALLBACK_NONE ||
 	  (end = !cmds_line[i + 1]))
 	{
-	  if (values.first && (!i || !cmds_line[i + values.second]))
+	  if (values.first && (!i || beside_separators(values, cmds_line + i) ||
+			       !cmds_line[i + values.second]))
 	    return (false);
 	  cmd->cmd_line = copystr(cmds_line + cmd_idx, i - cmd_idx + end, 0, 0);
 	}
