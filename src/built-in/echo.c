@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 13:38:50 2017 romain pillot
-** Last update Fri May 19 14:35:37 2017 romain pillot
+** Last update Sat May 20 20:00:03 2017 romain pillot
 */
 
 #include "builtin.h"
@@ -62,7 +62,7 @@ void	echo_alt(t_shell *shell, char **args)
   display_return = !equalstr(args[1], "-n");
   str = joinstr(args + (display_return ? 1 : 2), " ");
   i = -1;
-  while (str[++i])
+  while (str && str[++i])
     if (str[i] == '\\')
       if (str[i + 1] == '0')
 	display_char(format_octal(str + i + 1, &i));
