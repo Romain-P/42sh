@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:23:01 2017 romain pillot
-** Last update Sat May 20 19:38:23 2017 romain pillot
+** Last update Sat May 20 21:01:12 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -29,12 +29,24 @@ static t_triple_int	parse_chevron(char *str)
 	  (t_triple_int) {CHEVRON_NONE, CHEVRON_NONE, 0});
 }
 
+bool		beside_chevron(char next)
+{
+  char		buffer[3];
+
+  buffer[0] = next;
+  buffer[1] = next;
+  buffer[2] = 0;
+  return (parse_chevron(buffer).first != CHEVRON_NONE);
+}
+
 int	parse_file(char *str, char **redirection, int op_size)
 {
   int	i;
   int	j;
 
   i = str[op_size] == ' ' || str[op_size] == '\t' ? op_size + 1 : op_size;
+  if (!str[i] || beside_chevron(str[i]))
+    return (-1);
   while (str[i] && str[i] != ' ' && str[i] != '\t' && ++i);
   *redirection = copystr(str, i - 1, 0, 0);
   j = 0;
@@ -50,22 +62,24 @@ bool		parse_redirections(t_cmd *cmd)
   char		**redirection;
   int		*type;
 
-  while (cmd)
+  while (cmd && (i = -1))
     {
-      i = -1;
       while (cmd->cmd_line[++i])
-	{
-	  if ((values = parse_chevron(cmd->cmd_line + i)).first != CHEVRON_NONE)
-	    {
-	      redirection = values.first == CHEVRON_INPUT ?
-		&cmd->redirection_in : &cmd->redirection_out;
-	      type = values.first == CHEVRON_INPUT ?
-		&cmd->type_in : &cmd->type_out;
-	      *type = values.second;
-	      i += parse_file(cmd->cmd_line + i, redirection, values.third);
-	      i += values.third;
-	    }
-	}      
+	if ((values = parse_chevron(cmd->cmd_line + i)).first != CHEVRON_NONE)
+	  {
+	    redirection = values.first == CHEVRON_INPUT ?
+	      &cmd->redirection_in : &cmd->redirection_out;
+	    type = values.first == CHEVRON_INPUT ?
+	      &cmd->type_in : &cmd->type_out;
+	    *type = values.second;
+	    if ((values.first = parse_file(cmd->cmd_line + i, redirection, values.third)) == -1)
+	      return (false);
+	    i += values.first;
+	    i += values.third;
+	  }
+      if ((count_char(cmd->cmd_line, ' ') + 1 == str_length(cmd->cmd_line)) ||
+	  (count_char(cmd->cmd_line, '\t') + 1 == str_length(cmd->cmd_line)))
+	  return (false);
       cmd->args = splitstr(strdup(trimstr(cmd->cmd_line, ' ')), ' ');
       cmd = cmd->callback;
     }
