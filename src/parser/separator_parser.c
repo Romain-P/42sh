@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:17:08 2017 romain pillot
-** Last update Sat May 20 20:27:37 2017 romain pillot
+** Last update Sat May 20 21:15:15 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -40,7 +40,7 @@ static void     apply_callback_properties(t_cmd **cmd, int callback_type)
   hold->callback->channel = CHANNEL_READ;
 }
 
-bool		beside_separators(t_double_int values, char *cmds_line)
+static bool	beside_separators(t_double_int values, char *cmds_line)
 {
   char		str[3];
   char		next;

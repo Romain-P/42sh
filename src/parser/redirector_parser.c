@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:23:01 2017 romain pillot
-** Last update Sat May 20 21:01:12 2017 romain pillot
+** Last update Sat May 20 21:15:24 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -29,7 +29,7 @@ static t_triple_int	parse_chevron(char *str)
 	  (t_triple_int) {CHEVRON_NONE, CHEVRON_NONE, 0});
 }
 
-bool		beside_chevron(char next)
+static bool		beside_chevron(char next)
 {
   char		buffer[3];
 
@@ -39,7 +39,7 @@ bool		beside_chevron(char next)
   return (parse_chevron(buffer).first != CHEVRON_NONE);
 }
 
-int	parse_file(char *str, char **redirection, int op_size)
+static int	parse_file(char *str, char **redirection, int op_size)
 {
   int	i;
   int	j;
