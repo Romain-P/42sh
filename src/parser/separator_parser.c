@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:17:08 2017 romain pillot
-** Last update Sat May 20 21:15:15 2017 romain pillot
+** Last update Sun May 21 02:00:39 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -36,8 +36,8 @@ static void     apply_callback_properties(t_cmd **cmd, int callback_type)
   *cmd = (hold->callback = create_command(NULL));
   if (callback_type != CALLBACK_PIPE)
     return ;
-  hold->channel = CHANNEL_WRITE;
-  hold->callback->channel = CHANNEL_READ;
+  hold->writter_channels[0] = CHANNEL_WRITE;
+  hold->callback->reader_channels[0] = CHANNEL_READ;
 }
 
 static bool	beside_separators(t_double_int values, char *cmds_line)

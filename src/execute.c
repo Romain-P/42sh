@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sat May 20 21:23:12 2017 romain pillot
+** Last update Sun May 21 01:22:15 2017 romain pillot
 */
 
 #include "environment.h"
@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-static void	catch_child_exit(t_shell *shell, int pid)
+static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
 {
   char		*error;
   int		wstatus;
@@ -29,6 +29,7 @@ static void	catch_child_exit(t_shell *shell, int pid)
   int		hold;
 
   while (waitpid(pid, &wstatus, 0) != pid);
+  check_close(cmd);
   if (WIFEXITED(wstatus))
     shell->status = WEXITSTATUS(wstatus) ? EXIT_FAILURE : EXIT_SUCCESS;
   if (WIFSIGNALED(wstatus))
@@ -43,15 +44,18 @@ static void	catch_child_exit(t_shell *shell, int pid)
     }
 }
 
-static void	execute(t_shell *shell, char *path, t_cmd *cmd)
+static bool	execute(t_shell *shell, char *path, t_cmd *cmd)
 {
   pid_t		pid;
   char		*error;
 
+  if (!check_pipe(cmd))
+    return (false);
   if ((pid = fork()) == -1)
-    perror("fork");
+    perror(cmd->args[0]);
   else if (pid == CHILD_PROCESS)
     {
+      check_dup(cmd);
       if (execve(path, cmd->args, shell->env) == -1)
 	{
 	  if (start_withstr(INVALID_STR, (error = strerror(errno))))
@@ -61,7 +65,8 @@ static void	execute(t_shell *shell, char *path, t_cmd *cmd)
 	}
     }
   else
-    catch_child_exit(shell, pid);
+    catch_child_exit(shell, pid, cmd);
+  return (true);
 }
 
 static int	try_exec_access(char *path, char **denied, bool freepath)
@@ -85,7 +90,7 @@ static int	try_exec_access(char *path, char **denied, bool freepath)
   return (right);
 }
 
-static int	check_paths(t_shell *shell, t_cmd *cmd, char **denied)
+static int	check_paths(t_shell *shell, t_cmd *cmd, char **denied, bool *success)
 {
   char		*str;
   char		**hold;
@@ -100,7 +105,7 @@ static int	check_paths(t_shell *shell, t_cmd *cmd, char **denied)
       str = concatstr(str, cmd->args[0], true);
       if ((right = try_exec_access(str, denied, true)) == ACCESS)
 	{
-	  execute(shell, str, cmd);
+	  *success = execute(shell, str, cmd);
 	  free(str);
 	  break;
 	}
@@ -109,22 +114,25 @@ static int	check_paths(t_shell *shell, t_cmd *cmd, char **denied)
   return (right);
 }
 
-void            search_cmd(t_shell *shell, t_cmd *cmd)
+bool            search_cmd(t_shell *shell, t_cmd *cmd)
 {
   char          *str;
   char		*denied;
   int		right;
   bool		has_slash;
+  bool		success;
 
   denied = NULL;
+  success = false;
   if ((has_slash = count_char(cmd->args[0], '/') > 0) &&
       (right = try_exec_access(cmd->args[0], &denied, false)) == ACCESS)
-    execute(shell, cmd->args[0], cmd);
+    success = execute(shell, cmd->args[0], cmd);
   else if (!has_slash)
-    right = check_paths(shell, cmd, &denied);
+    right = check_paths(shell, cmd, &denied, &success);
   display(right == ACCESS ? NULL : denied ? denied : cmd->args[0]);
   display(right == ACCESS ? NULL : denied ? DENIED_STR : NFOUND_STR);
   if (right == NOT_FOUND)
     shell->status = EXIT_FAILURE;
   safe_free(denied);
+  return (success);
 }
