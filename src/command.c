@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri May 19 10:17:27 2017 romain pillot
-** Last update Sun May 21 15:56:15 2017 romain pillot
+** Last update Sun May 21 16:30:53 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -46,7 +46,8 @@ static t_cmd	*private_build(t_cmd *cmd)
       if (!str_length(cmd->cmd_line))
 	{
 	  if (cmd->type_in != CHEVRON_NONE || cmd->type_out != CHEVRON_NONE ||
-	      cmd->reader_channels[0] != CHANNEL_NONE || cmd->writter_channels[0] != CHANNEL_NONE)
+	      cmd->reader_channels[0] != CHANNEL_NONE ||
+	      cmd->writter_channels[0] != CHANNEL_NONE)
 	    display(NULL_CMD_STR);
 	  free_command(hold, true);
 	  return (NULL);

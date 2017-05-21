@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:39:17 2017 romain pillot
-** Last update Sun May 21 16:09:27 2017 romain pillot
+** Last update Sun May 21 16:42:32 2017 romain pillot
 */
 
 #include "environment.h"
@@ -13,6 +13,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "builtin.h"
+
+static void	display_error(char *file)
+{
+  display(file);
+  display(!access(file, F_OK) ? ": Not a directory.\n" :
+	  ": No such file or directory.\n");
+}
 
 void	cd_alt(t_shell *shell, char **args)
 {
@@ -32,8 +39,7 @@ void	cd_alt(t_shell *shell, char **args)
     chdir(tmp_pwd);
   else if (chdir(args[1]))
     {
-      display(args[1]);
-      display(": Not a directory.\n");
+      display_error(args[1]);
       shell->status = EXIT_FAILURE;
     }
   safe_free(tmp_pwd);
