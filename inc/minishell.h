@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Sun May 21 15:49:50 2017 romain pillot
+** Last update Sun May 21 16:56:55 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -116,5 +116,7 @@ int			get_cmd_index(char *cmd);
 void			build_and_exec(t_shell *shell, char *cmds_line);
 
 bool			search_cmd(t_shell *shell, t_cmd *cmd);
+
+bool			execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin);
 
 #endif /** !MINISHELL_H_ **/

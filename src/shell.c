@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Sun May 21 16:18:11 2017 romain pillot
+** Last update Sun May 21 16:57:41 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -18,12 +18,6 @@
 #include "builtin.h"
 
 static bool	has_child;
-
-static void   (* const builtins[]) (t_shell *shell, char **args) =
-{
-  &cd_alt, &setenv_alt, &unsetenv_alt,
-  &exit_alt, &echo_alt
-};
 
 static void	display_prompt()
 {
@@ -80,7 +74,7 @@ void	build_and_exec(t_shell *shell, char *cmds_line)
 	  break;
 	}
       else if (index != SEARCH_CMD)
-	builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
+	execute(shell, NULL, cmd, true);//builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
       cmd = apply_callback(shell, cmd);
       free_command(hold_cmd, !cmd);
       free(hold);

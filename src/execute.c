@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sun May 21 14:04:43 2017 romain pillot
+** Last update Sun May 21 17:08:46 2017 romain pillot
 */
 
 #include "environment.h"
@@ -20,6 +20,13 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include "builtin.h"
+
+static void   (* const builtins[]) (t_shell *shell, char **args) =
+{
+  &cd_alt, &setenv_alt, &unsetenv_alt,
+  &exit_alt, &echo_alt
+};
 
 static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
 {
@@ -46,7 +53,7 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
     }
 }
 
-static bool	execute(t_shell *shell, char *path, t_cmd *cmd)
+bool	execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin)
 {
   pid_t		pid;
   char		*error;
@@ -59,13 +66,15 @@ static bool	execute(t_shell *shell, char *path, t_cmd *cmd)
     {
       check_dup(cmd);
       check_close(cmd);
-      if (execve(path, cmd->args, shell->env) == -1)
+      if (!builtin && execve(path, cmd->args, shell->env) == -1)
 	{
 	  if (start_withstr(INVALID_STR, (error = strerror(errno))))
 	    error = INVALID_STR;
 	  printf("%s: %s.\n", cmd->args[0], error);
-	  shell->exit(shell, EXIT_FAILURE, NULL);
 	}
+      else
+	  builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
+      _exit(builtin ? shell->status : EXIT_FAILURE);
     }
   else
     catch_child_exit(shell, pid, cmd);
@@ -108,7 +117,7 @@ static int	check_paths(t_shell *shell, t_cmd *cmd, char **denied, bool *success)
       str = concatstr(str, cmd->args[0], true);
       if ((right = try_exec_access(str, denied, true)) == ACCESS)
 	{
-	  *success = execute(shell, str, cmd);
+	  *success = execute(shell, str, cmd, false);
 	  free(str);
 	  break;
 	}
@@ -129,7 +138,7 @@ bool            search_cmd(t_shell *shell, t_cmd *cmd)
   success = false;
   if ((has_slash = count_char(cmd->args[0], '/') > 0) &&
       (right = try_exec_access(cmd->args[0], &denied, false)) == ACCESS)
-    success = execute(shell, cmd->args[0], cmd);
+    success = execute(shell, cmd->args[0], cmd, false);
   else if (!has_slash)
     right = check_paths(shell, cmd, &denied, &success);
   display(right == ACCESS ? NULL : denied ? denied : cmd->args[0]);
