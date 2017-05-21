@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sun May 21 17:40:24 2017 romain pillot
+** Last update Sun May 21 21:18:23 2017 romain pillot
 */
 
 #include "environment.h"
@@ -34,7 +34,7 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
   int		status;
   int		hold;
 
-  check_close(cmd);
+  check_close(cmd, true);
   if (cmd->writter_channels[0] != CHANNEL_NONE)
     return ;
   while (waitpid(pid, &wstatus, 0) != pid);  
@@ -52,22 +52,32 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
     }
 }
 
+/*
+** don't blame me, 25/lines per function lmao, dat norm
+*/
 bool	execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin)
 {
   pid_t		pid;
+  int		saved_stdin;
+  int		saved_stdout;
 
-  if (!check_pipe(cmd))
+  if (!check_pipe(cmd) || !(saved_stdin = -1) || !(saved_stdout = -1))
     return (false);
   if (builtin && !cmd->callback)
     {
-      check_close(cmd);
+      check_redirection(cmd, builtin, &saved_stdin, &saved_stdout);
+      check_close(cmd, true);
       builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
+      if (saved_stdin != -1 && dup2(saved_stdin, 0) != -1)
+	close(saved_stdin);
+      if (saved_stdout != -1 && dup2(saved_stdout, 1))
+	close(saved_stdout);
     }
   else if ((pid = fork()) == -1)
     perror(cmd->args[0]);
-  else if (pid == CHILD_PROCESS)
-    execute_child(shell, path, cmd, builtin);
-  else
+  else if (pid == CHILD_PROCESS && !execute_child(shell, path, cmd, builtin))
+    return (false);
+  else if (pid != CHILD_PROCESS)
     catch_child_exit(shell, pid, cmd);
   return (true);
 }

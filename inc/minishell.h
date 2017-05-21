@@ -5,16 +5,18 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Sun May 21 17:39:12 2017 romain pillot
+** Last update Sun May 21 21:14:43 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
 # define MINISHELL_H_
 
-# include "stdbool.h"
+# include <stdbool.h>
+# include <stdio.h>
 # include "list.h"
 # include "script.h"
 
+# define SHRC		(".42shrcx")
 # define CHILD_PROCESS	(0)
 
 # define CMDS		(6)
@@ -71,8 +73,10 @@ typedef struct		s_cmd
   int			reader_channels[2];
   int			writter_channels[2];
   char			*redirection_out;
+  FILE			*fd_out;
   int			type_out;
   char			*redirection_in;
+  FILE			*fd_in;
   int			type_in;
   struct s_cmd		*callback;
   int			callback_type;
@@ -100,9 +104,11 @@ void			free_command(t_cmd *cmd, bool full);
 
 bool			check_pipe(t_cmd *cmd);
 
-void			check_close(t_cmd *cmd);
+void			check_close(t_cmd *cmd, bool redirection);
 
 bool			check_dup(t_cmd *cmd);
+
+bool			check_redirection(t_cmd *cmd, bool builtin, int *in, int *out);
 
 t_cmd			*build_commands(t_shell *shell, char *cmds_line);
 
@@ -120,6 +126,6 @@ bool			search_cmd(t_shell *shell, t_cmd *cmd);
 
 bool			execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin);
 
-void			execute_child(t_shell *shell, char *path, t_cmd *cmd, bool builtin);
+bool			execute_child(t_shell *shell, char *path, t_cmd *cmd, bool builtin);
 
 #endif /** !MINISHELL_H_ **/

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:23:01 2017 romain pillot
-** Last update Sun May 21 16:26:37 2017 romain pillot
+** Last update Sun May 21 20:06:04 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -43,12 +43,13 @@ static int	parse_file(char *str, char **redirection, int op_size)
 {
   int	i;
   int	j;
+  int	k;
 
-  i = str[op_size] == ' ' || str[op_size] == '\t' ? op_size + 1 : op_size;
+  i = (k =str[op_size] == ' ' || str[op_size] == '\t' ? op_size + 1 : op_size);
   if (!str[i] || beside_chevron(str[i]))
     return (-1);
   while (str[i] && str[i] != ' ' && str[i] != '\t' && ++i);
-  *redirection = copystr(str, i - 1, 0, 0);
+  *redirection = copystr(str + k, i - 1, 0, 0);
   j = 0;
   while (j < i)
     str[j++] = ' ';

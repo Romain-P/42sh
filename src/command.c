@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri May 19 10:17:27 2017 romain pillot
-** Last update Sun May 21 17:34:14 2017 romain pillot
+** Last update Sun May 21 20:55:19 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -30,8 +30,10 @@ t_cmd		*create_command(char *cmd_line)
   cmd->callback = NULL;
   cmd->callback_type = CALLBACK_NONE;
   cmd->redirection_in = NULL;
+  cmd->fd_in = NULL;
   cmd->type_in = CHEVRON_NONE;
   cmd->redirection_out = NULL;
+  cmd->fd_out = NULL;
   cmd->type_out = CHEVRON_NONE;
   return (cmd);
 }
