@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sun May 21 01:22:15 2017 romain pillot
+** Last update Sun May 21 14:04:43 2017 romain pillot
 */
 
 #include "environment.h"
@@ -28,8 +28,10 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
   int		status;
   int		hold;
 
-  while (waitpid(pid, &wstatus, 0) != pid);
   check_close(cmd);
+  if (cmd->writter_channels[0] != CHANNEL_NONE)
+    return ;
+  while (waitpid(pid, &wstatus, 0) != pid);  
   if (WIFEXITED(wstatus))
     shell->status = WEXITSTATUS(wstatus) ? EXIT_FAILURE : EXIT_SUCCESS;
   if (WIFSIGNALED(wstatus))
@@ -56,6 +58,7 @@ static bool	execute(t_shell *shell, char *path, t_cmd *cmd)
   else if (pid == CHILD_PROCESS)
     {
       check_dup(cmd);
+      check_close(cmd);
       if (execve(path, cmd->args, shell->env) == -1)
 	{
 	  if (start_withstr(INVALID_STR, (error = strerror(errno))))

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri May 19 10:17:27 2017 romain pillot
-** Last update Sun May 21 12:25:33 2017 romain pillot
+** Last update Sun May 21 14:10:28 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -33,6 +33,7 @@ t_cmd		*create_command(char *cmd_line)
   cmd->type_in = CHEVRON_NONE;
   cmd->redirection_out = NULL;
   cmd->type_out = CHEVRON_NONE;
+  cmd->previous_pid = 0;
   return (cmd);
 }
 
@@ -65,9 +66,10 @@ t_cmd		*build_commands(t_shell *shell, char *cmds_line)
 void	check_close(t_cmd *cmd)
 {
   if (cmd->reader_channels[0] != CHANNEL_NONE)
-    close(cmd->reader_channels[CHANNEL_READ]);
-  if (cmd->writter_channels[0] != CHANNEL_NONE)
-    close(cmd->writter_channels[CHANNEL_WRITE]);
+    {
+      close(cmd->reader_channels[CHANNEL_READ]);
+      close(cmd->reader_channels[CHANNEL_WRITE]);
+    }
 }
 
 bool	check_dup(t_cmd *cmd)
