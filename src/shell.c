@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Sun May 21 14:13:10 2017 romain pillot
+** Last update Sun May 21 16:18:11 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -65,22 +65,24 @@ void	build_and_exec(t_shell *shell, char *cmds_line)
   char		*hold;
   int		index;
   t_cmd		*cmd;
+  t_cmd		*hold_cmd;
 
   has_child = true;
   cmd = build_commands(shell, cmds_line);
-  while (cmd)
+  while ((hold_cmd = cmd))
     {
       hold = cmd->cmd_line;
       cmd->cmd_line = format_alias(hold, shell->scripts->aliases);
       index = get_cmd_index(cmd->args[0]);
-      if (index == SEARCH_CMD)
+      if (index == SEARCH_CMD && !search_cmd(shell, cmd))
 	{
-	  if (!search_cmd(shell, cmd))
-	    break;
+	  free_command(cmd, false);
+	  break;
 	}
-      else
+      else if (index != SEARCH_CMD)
 	builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
       cmd = apply_callback(shell, cmd);
+      free_command(hold_cmd, !cmd);
       free(hold);
     }
   free(cmds_line);

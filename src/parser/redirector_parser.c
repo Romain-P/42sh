@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:23:01 2017 romain pillot
-** Last update Sat May 20 22:44:22 2017 romain pillot
+** Last update Sun May 21 16:26:37 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -52,27 +52,34 @@ static int	parse_file(char *str, char **redirection, int op_size)
   j = 0;
   while (j < i)
     str[j++] = ' ';
-  return (!i ? i : i - 1);
+  return (i - op_size - 1);
+}
+
+static bool	apply_redirection_properties(t_triple_int *values, t_cmd *cmd, int i)
+{
+  char          **redirection;
+  int           *type;
+
+  redirection = values->first == CHEVRON_INPUT ?
+    &cmd->redirection_in : &cmd->redirection_out;
+  type = values->first == CHEVRON_INPUT ?
+    &cmd->type_in : &cmd->type_out;
+  *type = values->second;
+  values->first = parse_file(cmd->cmd_line + i, redirection, values->third);
+  return (values->first != -1);
 }
 
 bool		parse_redirections(t_cmd *cmd)
 {
   int		i;
   t_triple_int	values;
-  char		**redirection;
-  int		*type;
 
   while (cmd && (i = -1))
     {
-      while (cmd->cmd_line && cmd->cmd_line[++i])
+      while (cmd && cmd->cmd_line && cmd->cmd_line[++i])
 	if ((values = parse_chevron(cmd->cmd_line + i)).first != CHEVRON_NONE)
 	  {
-	    redirection = values.first == CHEVRON_INPUT ?
-	      &cmd->redirection_in : &cmd->redirection_out;
-	    type = values.first == CHEVRON_INPUT ?
-	      &cmd->type_in : &cmd->type_out;
-	    *type = values.second;
-	    if ((values.first = parse_file(cmd->cmd_line + i, redirection, values.third)) == -1)
+	    if (!apply_redirection_properties(&values, cmd, i))
 	      return (false);
 	    i += values.first;
 	    i += values.third;

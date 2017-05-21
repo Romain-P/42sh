@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri May 19 10:17:27 2017 romain pillot
-** Last update Sun May 21 14:10:28 2017 romain pillot
+** Last update Sun May 21 15:56:15 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -33,75 +33,65 @@ t_cmd		*create_command(char *cmd_line)
   cmd->type_in = CHEVRON_NONE;
   cmd->redirection_out = NULL;
   cmd->type_out = CHEVRON_NONE;
-  cmd->previous_pid = 0;
   return (cmd);
+}
+
+static t_cmd	*private_build(t_cmd *cmd)
+{
+  t_cmd		*hold;
+
+  hold = cmd;
+  while (cmd)
+    {
+      if (!str_length(cmd->cmd_line))
+	{
+	  if (cmd->type_in != CHEVRON_NONE || cmd->type_out != CHEVRON_NONE ||
+	      cmd->reader_channels[0] != CHANNEL_NONE || cmd->writter_channels[0] != CHANNEL_NONE)
+	    display(NULL_CMD_STR);
+	  free_command(hold, true);
+	  return (NULL);
+	}
+      cmd = cmd->callback;
+    }
+  return (hold);
 }
 
 t_cmd		*build_commands(t_shell *shell, char *cmds_line)
 {
   t_cmd		*cmd;
-  t_cmd		*hold;
 
   if (!parse_separators(trimstr(cmds_line, ' '), (cmd = create_command(NULL))))
     display(NULL_CMD_STR);
-  else if (!parse_redirections((hold = cmd)))
+  else if (!parse_redirections(cmd))
     display(MISSING_STR);
   else
-    {
-      while (cmd)
-	{
-	  if (!str_length(cmd->cmd_line))
-	    {
-	      display(NULL_CMD_STR);
-	      return (NULL);
-	    }
-	  cmd = cmd->callback;
-	}
-      return (hold);
-    }
+    return (private_build(cmd));
+  free_command(cmd, true);
   shell->status = EXIT_FAILURE;
   return (NULL);
 }
 
-void	check_close(t_cmd *cmd)
+void	free_command(t_cmd *cmd, bool full)
 {
-  if (cmd->reader_channels[0] != CHANNEL_NONE)
-    {
-      close(cmd->reader_channels[CHANNEL_READ]);
-      close(cmd->reader_channels[CHANNEL_WRITE]);
-    }
-}
+  t_cmd	*hold;
 
-bool	check_dup(t_cmd *cmd)
-{
-  if (cmd->reader_channels[0] != CHANNEL_NONE &&
-      dup2(cmd->reader_channels[CHANNEL_READ], STDIN_FILENO) == -1)
+  hold = cmd;
+  if (!full)
     {
-      perror(cmd->args[0]);
-      return (false);
+      safe_free(cmd->cmd_line);
+      safe_freesub(cmd->args, true);
+      safe_free(cmd->redirection_out);
+      safe_free(cmd->redirection_in);
+      safe_free(cmd);
     }
-  if (cmd->writter_channels[0] != CHANNEL_NONE &&
-      dup2(cmd->writter_channels[CHANNEL_WRITE], STDOUT_FILENO) == -1)
-    {
-      perror(cmd->args[0]);
-      return (false);
-    }
-  return (true);
-}
-
-bool	check_pipe(t_cmd *cmd)
-{
-  if (cmd->writter_channels[0] != CHANNEL_NONE)
-    {
-      if (pipe(cmd->writter_channels) == -1)
-	{
-	  perror(cmd->args[0]);
-	  return (false);
-	}
-      cmd->callback->reader_channels[CHANNEL_READ] =
-	cmd->writter_channels[CHANNEL_READ];
-      cmd->callback->reader_channels[CHANNEL_WRITE] =
-	cmd->writter_channels[CHANNEL_WRITE];
-    }
-  return (true);
+  else
+    while ((cmd = hold))
+      {
+	hold = hold->callback;
+	safe_free(cmd->cmd_line);
+	safe_freesub(cmd->args, true);
+	safe_free(cmd->redirection_out);
+	safe_free(cmd->redirection_in);
+	safe_free(cmd);
+      }
 }

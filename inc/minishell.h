@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Sun May 21 14:18:23 2017 romain pillot
+** Last update Sun May 21 15:49:50 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -75,7 +75,6 @@ typedef struct		s_cmd
   int			type_in;
   struct s_cmd		*callback;
   int			callback_type;
-  int			previous_pid;
 }			t_cmd;
 
 typedef struct		s_history
@@ -95,6 +94,8 @@ typedef struct		s_shell
 }			t_shell;
 
 t_cmd			*create_command(char *args);
+
+void			free_command(t_cmd *cmd, bool full);
 
 bool			check_pipe(t_cmd *cmd);
 

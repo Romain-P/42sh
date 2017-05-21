@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 **
 ** Started on  Wed Mar  8 13:39:17 2017 romain pillot
-** Last update Fri May 19 14:34:20 2017 romain pillot
+** Last update Sun May 21 16:09:27 2017 romain pillot
 */
 
 #include "environment.h"
@@ -36,6 +36,7 @@ void	cd_alt(t_shell *shell, char **args)
       display(": Not a directory.\n");
       shell->status = EXIT_FAILURE;
     }
+  safe_free(tmp_pwd);
   getcwd(buffer, 1024);
   set_value(shell->env, "PWD", buffer);
 }

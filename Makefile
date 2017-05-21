@@ -5,7 +5,7 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Sat May 20 21:48:22 2017 romain pillot
+## Last update Sun May 21 15:16:16 2017 romain pillot
 ##
 
 CC	=	gcc
@@ -16,6 +16,7 @@ RM	=	rm -f
 
 SRCS	=	src/main.c			\
 		src/command.c			\
+		src/command_helper.c		\
 		src/shell.c			\
 		src/environment.c		\
 		src/execute.c			\
