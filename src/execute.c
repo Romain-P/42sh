@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sun May 21 17:08:46 2017 romain pillot
+** Last update Sun May 21 17:40:24 2017 romain pillot
 */
 
 #include "environment.h"
@@ -24,8 +24,7 @@
 
 static void   (* const builtins[]) (t_shell *shell, char **args) =
 {
-  &cd_alt, &setenv_alt, &unsetenv_alt,
-  &exit_alt, &echo_alt
+  &cd_alt, &setenv_alt, &unsetenv_alt, &exit_alt, &echo_alt, &env_alt
 };
 
 static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
@@ -56,26 +55,18 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
 bool	execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin)
 {
   pid_t		pid;
-  char		*error;
 
   if (!check_pipe(cmd))
     return (false);
-  if ((pid = fork()) == -1)
+  if (builtin && !cmd->callback)
+    {
+      check_close(cmd);
+      builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
+    }
+  else if ((pid = fork()) == -1)
     perror(cmd->args[0]);
   else if (pid == CHILD_PROCESS)
-    {
-      check_dup(cmd);
-      check_close(cmd);
-      if (!builtin && execve(path, cmd->args, shell->env) == -1)
-	{
-	  if (start_withstr(INVALID_STR, (error = strerror(errno))))
-	    error = INVALID_STR;
-	  printf("%s: %s.\n", cmd->args[0], error);
-	}
-      else
-	  builtins[get_cmd_index(cmd->args[0])](shell, cmd->args);
-      _exit(builtin ? shell->status : EXIT_FAILURE);
-    }
+    execute_child(shell, path, cmd, builtin);
   else
     catch_child_exit(shell, pid, cmd);
   return (true);
