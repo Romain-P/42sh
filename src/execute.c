@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sun May 21 21:33:26 2017 romain pillot
+** Last update Sun May 21 21:38:44 2017 romain pillot
 */
 
 #include "environment.h"
@@ -54,7 +54,7 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
 /*
 ** don't blame me, 25/lines per function lmao, dat norm
 */
-bool	execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin)
+bool		execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin)
 {
   pid_t		pid;
   int		saved_stdin;
