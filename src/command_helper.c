@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sun May 21 15:15:00 2017 romain pillot
-** Last update Sun May 21 21:15:35 2017 romain pillot
+** Last update Tue May 30 21:35:52 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -89,9 +89,9 @@ bool	check_redirection(t_cmd *cmd, bool builtin, int *in, int *out)
       *out = builtin ? dup(STDOUT_FILENO) : -1;
       dup2(fileno((cmd->fd_out = fd)), STDOUT_FILENO);
     }
-  if (cmd->redirection_in && cmd->type_in == CHEVRON_DOUBLE)
+  if (cmd->redirection_in && cmd->type_in == CHEVRON_SIMPLE)
     {
-      if (!(fd = fopen(cmd->redirection_in, O_RDONLY)))
+      if (!(fd = fopen(cmd->redirection_in, "r")))
 	{
 	  perror(cmd->args[0]);
 	  return (false);
