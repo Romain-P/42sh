@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Tue Feb  7 14:39:21 2017 romain pillot
-** Last update Tue May 16 14:09:08 2017 romain pillot
+** Last update Sun May 21 21:42:30 2017 romain pillot
 */
 
 #include "util.h"
@@ -34,7 +34,7 @@ void	display_digit(int digit)
   c = digit + '0';
   write(1, &c, 1);
 }
-  
+
 void	display_char(char c)
 {
   write(1, &c, 1);
