@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed May 17 11:40:02 2017 romain pillot
-** Last update Wed May 17 16:16:40 2017 romain pillot
+** Last update Sun May 21 21:36:24 2017 romain pillot
 */
 
 #include "util.h"
@@ -14,12 +14,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-char                    *file_content(int file)
+char	*file_content(int file)
 {
-  unsigned char         *content;
-  unsigned char         buffer[1024 + 1];
-  int                   bytes;
-  int                   len;
+  char	*content;
+  char	buffer[1024 + 1];
+  int	bytes;
+  int	len;
 
   content = NULL;
   len = 0;

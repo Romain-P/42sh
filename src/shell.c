@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Sun May 21 17:28:02 2017 romain pillot
+** Last update Sun May 21 21:33:08 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -85,7 +85,6 @@ void	build_and_exec(t_shell *shell, char *cmds_line)
 void		launch(t_shell *shell, int file)
 {
   char		*cmds_line;
-  t_cmd		*cmd;
 
   signal(SIGINT, &exit_handle);
   shell->running = true;

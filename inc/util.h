@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  2 16:17:22 2017 romain pillot
-** Last update Sat May 20 15:53:42 2017 romain pillot
+** Last update Sun May 21 21:34:09 2017 romain pillot
 */
 
 #ifndef UTIL_H_
@@ -32,8 +32,8 @@ char	*reballoc(char *old, int size);
 
 char	*joinstr(char **tab, char *joiner);
 
-char	*copystr(unsigned char *from, int lenf,
-		 unsigned char *to, int index);
+char	*copystr(char *from, int lenf,
+		 char *to, int index);
 
 char	*scan_line(const int file);
 

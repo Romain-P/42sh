@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Tue May 16 16:12:23 2017 romain pillot
-** Last update Thu May 18 08:25:35 2017 romain pillot
+** Last update Sun May 21 21:35:18 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -44,12 +44,10 @@ void		load_aliases(t_shell *shell, char **file_content)
 
 static char	*replace(char **cmd, t_alias *alias, t_list *aliases)
 {
-  int		len;
   char		*line;
   char		*hold;
   char		*recurse;
 
-  len = str_length(*cmd);
   line = concatstr(concatstr(alias->content, " ", false),
 		   (hold = joinstr(cmd + 1, " ")), true);
   if ((recurse = format_alias(line, aliases)) != line)

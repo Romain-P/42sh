@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 10:25:12 2017 romain pillot
-** Last update Fri May 19 20:57:48 2017 romain pillot
+** Last update Sun May 21 21:36:47 2017 romain pillot
 */
 
 #include <stdbool.h>
@@ -70,10 +70,9 @@ char	*joinstr(char **tab, char *joiner)
   return (str);
 }
 
-char    *copystr(unsigned char *from, int lenf,
-		 unsigned char *to, int index)
+char    *copystr(char *from, int lenf,
+		 char *to, int index)
 {
-  int   len;
   int   i;
 
   i = 0;

@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed May 17 11:27:29 2017 romain pillot
-** Last update Thu May 18 08:37:13 2017 romain pillot
+** Last update Sun May 21 21:35:30 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -25,7 +25,7 @@ void	load_exports(t_shell *shell, char **file_content)
 
   buffer[1] = 0;
   i = -1;
-  while (str = file_content[++i])
+  while ((str = file_content[++i]))
     {
       if (start_withstr(str, "export"))
 	{

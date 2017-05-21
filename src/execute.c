@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sun May 21 21:18:23 2017 romain pillot
+** Last update Sun May 21 21:33:26 2017 romain pillot
 */
 
 #include "environment.h"
@@ -32,7 +32,6 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
   char		*error;
   int		wstatus;
   int		status;
-  int		hold;
 
   check_close(cmd, true);
   if (cmd->writter_channels[0] != CHANNEL_NONE)
@@ -129,7 +128,6 @@ static int	check_paths(t_shell *shell, t_cmd *cmd, char **denied, bool *success)
 
 bool            search_cmd(t_shell *shell, t_cmd *cmd)
 {
-  char          *str;
   char		*denied;
   int		right;
   bool		has_slash;
