@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Sat May 20 22:14:35 2017 romain pillot
+** Last update Sun May 21 14:13:10 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -22,7 +22,7 @@ static bool	has_child;
 static void   (* const builtins[]) (t_shell *shell, char **args) =
 {
   &cd_alt, &setenv_alt, &unsetenv_alt,
-  &env_alt, &exit_alt, &echo_alt
+  &exit_alt, &echo_alt
 };
 
 static void	display_prompt()
@@ -111,7 +111,6 @@ int     get_cmd_index(char *str)
   return (equalstr(str, "cd") ? CD :
 	  equalstr(str, "setenv") ? SETENV :
 	  equalstr(str, "unsetenv") ? UNSETENV :
-	  equalstr(str, "env") ? ENV :
 	  equalstr(str, "echo") ? ECHO : 
 	  equalstr(str, "exit") ? EXIT : SEARCH_CMD);
 }

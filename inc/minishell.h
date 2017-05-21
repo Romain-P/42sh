@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Nov 24 11:15:51 2016 romain pillot
-** Last update Sun May 21 14:05:00 2017 romain pillot
+** Last update Sun May 21 14:18:23 2017 romain pillot
 */
 
 #ifndef MINISHELL_H_
@@ -22,9 +22,8 @@
 # define CD		(0)
 # define SETENV		(1)
 # define UNSETENV	(2)
-# define ENV		(3)
-# define EXIT		(4)
-# define ECHO		(5)
+# define EXIT		(3)
+# define ECHO		(4)
 
 # define NOT_FOUND	(0)
 # define DENIED		(-1)
