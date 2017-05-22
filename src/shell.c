@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Sun May 21 21:33:08 2017 romain pillot
+** Last update Mon May 22 11:01:22 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -71,6 +71,7 @@ void	build_and_exec(t_shell *shell, char *cmds_line)
       if (index == SEARCH_CMD && !search_cmd(shell, cmd))
 	{
 	  free_command(cmd, false);
+	  free(hold);
 	  break;
 	}
       else if (index != SEARCH_CMD)
