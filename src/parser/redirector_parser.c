@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Sat May 20 13:23:01 2017 romain pillot
-** Last update Sun May 21 21:39:44 2017 romain pillot
+** Last update Wed May 31 09:28:04 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -56,7 +56,8 @@ static int	parse_file(char *str, char **redirection, int op_size)
   return (i - op_size - 1);
 }
 
-static bool	apply_redirection_properties(t_triple_int *values, t_cmd *cmd, int i)
+static bool	apply_redirection_properties(t_triple_int *values, t_cmd *cmd,
+					     int i)
 {
   char          **redirection;
   int           *type;
@@ -85,7 +86,8 @@ bool		parse_redirections(t_cmd *cmd)
 	    i += values.first;
 	    i += values.third;
 	  }
-      cmd->args = cmd->cmd_line ? splitstr(strdup(trimstr(cmd->cmd_line, ' ')), ' ') :
+      cmd->args = cmd->cmd_line ? splitstr(strdup(trimstr(cmd->cmd_line, ' ')),
+					   ' ') :
 	NULL;
       cmd = cmd->callback;
     }

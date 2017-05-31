@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Thu Mar  9 14:13:51 2017 romain pillot
-** Last update Sun May 21 21:38:44 2017 romain pillot
+** Last update Wed May 31 09:27:14 2017 romain pillot
 */
 
 #include "environment.h"
@@ -36,7 +36,7 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
   check_close(cmd, true);
   if (cmd->writter_channels[0] != CHANNEL_NONE)
     return ;
-  while (waitpid(pid, &wstatus, 0) != pid);  
+  while (waitpid(pid, &wstatus, 0) != pid);
   if (WIFEXITED(wstatus))
     shell->status = WEXITSTATUS(wstatus) ? EXIT_FAILURE : EXIT_SUCCESS;
   if (WIFSIGNALED(wstatus))
@@ -51,9 +51,6 @@ static void	catch_child_exit(t_shell *shell, int pid, t_cmd *cmd)
     }
 }
 
-/*
-** don't blame me, 25/lines per function lmao, dat norm
-*/
 bool		execute(t_shell *shell, char *path, t_cmd *cmd, bool builtin)
 {
   pid_t		pid;

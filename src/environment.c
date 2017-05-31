@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Wed Mar  8 11:44:53 2017 romain pillot
-** Last update Tue May 16 15:36:51 2017 romain pillot
+** Last update Wed May 31 09:23:47 2017 romain pillot
 */
 
 #include "environment.h"
@@ -47,7 +47,7 @@ char    **copy_env(char **env, char **overwrite)
   added = tab_length(env) - count_similar_keys(env, overwrite);
   if (!(hold = (new  = malloc(sizeof(char *) * (tab_length(env) + added + 1)))))
     return (NULL);
-  while(env && (str = *env++))
+  while (env && (str = *env++))
     {
       split = splitstr((tofree = strdupl(str)), '=');
       *new++ = strdupl(((var = tab_start_withstr(overwrite, split[0])) &&

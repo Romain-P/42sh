@@ -1,11 +1,11 @@
 /*
-** main.c for  in /home/romain.pillot/bin
+** main.c for  in /home/romain.pillot/projects/shell/src
 ** 
 ** Made by romain pillot
 ** Login   <romain.pillot@epitech.net>
 ** 
-** Started on  Thu Nov 24 11:14:29 2016 romain pillot
-** Last update Sun May 21 16:07:47 2017 romain pillot
+** Started on  Wed May 31 09:28:40 2017 romain pillot
+** Last update Wed May 31 09:28:41 2017 romain pillot
 */
 
 #include <stdlib.h>

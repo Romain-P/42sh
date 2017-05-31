@@ -5,7 +5,7 @@
 ** Login   <romain.pillot@epitech.net>
 ** 
 ** Started on  Fri Mar  3 02:18:12 2017 romain pillot
-** Last update Mon May 22 11:13:30 2017 romain pillot
+** Last update Wed May 31 09:28:22 2017 romain pillot
 */
 
 #include "minishell.h"
@@ -49,8 +49,10 @@ static t_cmd	*apply_callback(t_shell *shell, t_cmd *cmd)
   bool		successed;
 
   successed = !shell->status;
-  return (cmd->callback_type == CALLBACK_ONSUCCESS ? successed ? cmd->callback : NULL :
-	  cmd->callback_type == CALLBACK_ONFAILURE ? !successed ? cmd->callback : NULL :
+  return (cmd->callback_type == CALLBACK_ONSUCCESS ? successed ? cmd->callback :
+	  NULL :
+	  cmd->callback_type == CALLBACK_ONFAILURE ? !successed ? cmd->callback :
+	  NULL :
 	  cmd->callback);
 }
 

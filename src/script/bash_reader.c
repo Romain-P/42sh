@@ -4,12 +4,8 @@
 ** Made by romain pillot
 ** Login   <romain.pillot@epitech.net>
 ** 
-** Started on  Tue May 16 16:00:37 2017 romain pillot
-<<<<<<< HEAD
-** Last update Sun May 21 21:34:54 2017 romain pillot
-=======
-** Last update Fri May 19 13:42:36 2017 romain pillot
->>>>>>> 19274deb9980f90e507623951d7d19627ba42a23
+** Started on  Wed May 31 09:29:22 2017 romain pillot
+** Last update Wed May 31 09:29:23 2017 romain pillot
 */
 
 #include "minishell.h"
