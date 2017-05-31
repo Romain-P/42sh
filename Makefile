@@ -5,7 +5,7 @@
 ## Login   <jordan.roucom@epitech.net>
 ## 
 ## Started on  Sat Oct 29 17:09:21 2016 romain pillot
-## Last update Mon May 22 10:55:15 2017 romain pillot
+## Last update Wed May 31 09:30:09 2017 romain pillot
 ##
 
 CC	=	gcc
@@ -15,6 +15,7 @@ NAME	=	42sh
 RM	=	rm -f
 
 SRCS	=	src/main.c			\
+		src/test.c			\
 		src/command.c			\
 		src/command_helper.c		\
 		src/shell.c			\
